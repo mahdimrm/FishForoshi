@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FishForoshi.Abstraction\FishForoshi.Abstraction.csproj" />
+    <ProjectReference Include="..\FishForoshi.Database\FishForoshi.Database.csproj" />
+  </ItemGroup>
+
 </Project>

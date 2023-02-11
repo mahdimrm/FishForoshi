@@ -1,0 +1,34 @@
+﻿@{
+    var currentController = ViewContext.RouteData.Values["Controller"];
+    var currentAction = ViewContext.RouteData.Values["Action"];
+}
+<ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="">
+    <li class="nav-item @(currentController.ToString() == "Home"?"active":"")">
+        <a asp-controller="Home" asp-action="Index">
+            <i class="bx bxs-home"></i>
+            <span class="menu-title">کارتابل</span>
+        </a>
+    </li>
+
+
+    <li class="has-sub">
+        <a href="javascript:">
+            <i class="bx bx-restaurant"></i>
+            <span class="menu-item">غذا</span>
+        </a>
+        <ul class="menu-content" style="">
+            <li>
+                <a asp-controller="Food" asp-action="Index">
+                    <i class="bx bx-list-ol"></i>
+                    <span class="menu-item">لیست غذا ها</span>
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Food" asp-action="Report">
+                    <i class="bx bx-window-open"></i>
+                    <span class="menu-item">گزارش غذا</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>

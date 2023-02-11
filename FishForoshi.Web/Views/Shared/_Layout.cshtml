@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html lang="fa" data-textdirection="rtl" dir="rtl">
+<head>
+    <title>پنل مدیریت فیش فروشی | @ViewData["Title"]</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
+    <meta name="theme-color" content="#5A8DEE" />
+    <link href="~/vendors/css/vendors.min.css" rel="stylesheet" />
+    <link href="~/vendors/css/forms/select/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/vendors/css/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/vendors/css/extensions/sweetalert2.min.css">
+
+    <!-- BEGIN: Date Picker -->
+    <link href="~/vendors/css/pickers/pickadate/pickadate.css" rel="stylesheet" />
+    <link href="~/vendors/css/pickers/daterange/daterangepicker.css" rel="stylesheet" />
+    <link href="~/vendors/css/pickers/datepicker-jalali/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <!-- END: Date Picker -->
+
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-extended.css" rel="stylesheet" />
+    <link href="~/css/colors.css" rel="stylesheet" />
+    <link href="~/css/components.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/themes/dark-layout.css" rel="stylesheet" />
+    <link href="~/css/themes/semi-dark-layout.css" rel="stylesheet" />
+    <link href="~/css/core/menu/menu-types/vertical-menu.css" rel="stylesheet" />
+
+    <link href="~/panelScript/w3.css" rel="stylesheet" />
+    <link href="~/panelScript/app.css" rel="stylesheet" />
+
+    <!-- Main Style CSS -->
+    <link href="/css/notifications.css" rel="stylesheet" />
+
+    <script src="~/vendors/js/vendors.min.js"></script>
+
+</head>
+<body onload="hideLoading()" class="vertical-layout vertical-menu-modern boxicon-layout 2-columns menu-expanded pace-done navbar-sticky semi-dark-layout footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+
+    <!--Loader-->
+    <div class="ulLoader" id="loader">
+        <ul class="ulLoaderul" id="ulLoaderul">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <!--End Loader-->
+
+
+    <div class="header-navbar-shadow"></div>
+    <nav class="header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top">
+        <div class="navbar-wrapper">
+            <div class="navbar-container content">
+                <div class="navbar-collapse" id="navbar-mobile">
+                    <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item mobile-menu d-xl-none mr-auto">
+                                <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon bx bx-menu"></i></a>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <ul class="nav navbar-nav float-right">
+                        <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link nav-link-expand"><i class="ficon bx bx-fullscreen"></i></a>
+                        </li>
+                        <partial name="_HeaderUserPartial" />
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow menu-dark" data-scroll-to-active="true">
+        <div class="navbar-header">
+            <ul class="nav navbar-nav flex-row">
+                <li class="nav-item mr-auto">
+                    <a class="navbar-brand" href="index-2.html">
+                        <h2 class="brand-text mb-0">پنل مدیریت فیش فروشی </h2>
+                    </a>
+                </li>
+                <li class="nav-item nav-toggle">
+                    <a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse">
+                        <i class="bx bx-x d-block d-xl-none font-medium-4 primary toggle-icon"></i>
+                        <i class="toggle-icon bx bx-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" data-ticon="bx-disc"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="shadow-bottom"></div>
+        <div class="main-menu-content">
+            <partial name="_MenuPartial" />
+        </div>
+    </div>
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+    </div>
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+    <partial name="_FooterPartial" />
+
+
+    <!--Modal-->
+
+    <div id="modals"></div>
+
+    <div id="id01" class="w3-modal modal-container" style="backdrop-filter: blur(5px);z-index:1400">
+        <div id="modalmain" class="w3-modal-content w3-card-4 w3-animate-zoom mymodal">
+            <div id="modalmainheader" class="w3-center">
+                <br>
+                <span onclick="closeModal()" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+                <h5 id="modal-title"></h5>
+            </div>
+            <div id="modal-body"> </div>
+
+            <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                <button onclick="closeModal()" type="button" class="btn btn-dark btn-block">بازگشت</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Eend Modal-->
+
+    <!--Toast-->
+    <div id="snackbar" class="snackbar"></div>
+    <!--End Toast-->
+
+
+    <script src="~/vendors/js/extensions/sweetalert2.all.min.js"></script>
+    <script src="~/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/vendors/js/ui/blockUI.min.js"></script>
+
+    <!-- BEGIN: Date Picker -->
+    <script src="~/vendors/js/pickers/pickadate/picker.js"></script>
+    <script src="~/vendors/js/pickers/pickadate/picker.date.js"></script>
+    <script src="~/vendors/js/pickers/pickadate/picker.time.js"></script>
+    <script src="~/vendors/js/pickers/pickadate/legacy.js"></script>
+    <script src="~/vendors/js/pickers/daterange/moment.min.js"></script>
+    <script src="~/vendors/js/pickers/daterange/daterangepicker.js"></script>
+    <script src="~/vendors/js/pickers/datepicker-jalali/bootstrap-datepicker.min.js"></script>
+    <script src="~/vendors/js/pickers/datepicker-jalali/bootstrap-datepicker.fa.min.js"></script>
+    <!-- END: Date Picker -->
+
+    <script src="~/js/core/app-menu.js"></script>
+    <script src="~/js/core/app.js"></script>
+    <script src="~/js/scripts/components.js"></script>
+    <script src="~/js/scripts/footer.js"></script>
+    <script src="~/js/scripts/extensions/sweet-alerts.js"></script>
+    <script src="~/js/scripts/forms/select/form-select2.js"></script>
+    <script src="~/js/scripts/pickers/dateTime/pick-a-datetime.js"></script>
+    <script src="~/js/scripts/navs/navs.js"></script>
+    <script src="~/js/main.js" asp-append-version="true"></script>
+
+    <!-- Scripts That We Write -->
+    <script src="~/panelScript/modal.js"></script>
+    <script src="~/panelScript/group.js"></script>
+    <script src="~/panelScript/main.js"></script>
+    <script src="~/panelScript/table.js"></script>
+
+    <!-- Main JS -->
+    <script src="~/js/core/notifications.js"></script>
+    <script src="~/js/core/Custom.js"></script>
+    @RenderSection("Scripts", required: false)
+    <partial name="_SiteMessanger" />
+</body>
+</html>

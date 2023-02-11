@@ -1,0 +1,26 @@
+﻿@using FishForoshi.Entities;
+@model Norm
+@{
+    ViewData["Title"] = "اضافه کردن نرم";
+    Layout = null;
+}
+
+<div  class="col-md-12">
+    <form asp-action="Create" asp-controller="Norm" method="post">
+        <input type="hidden" name="id" id="id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" required type="text" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Value" class="control-label"></label>
+            <input asp-for="Value" required type="number" class="form-control" />
+            <span asp-validation-for="Value" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-block">افزودن</button>
+        </div>
+    </form>
+</div>
