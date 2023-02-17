@@ -3,6 +3,7 @@ using FishForoshi.Abstraction.Tools;
 using FishForoshi.Entities;
 using FishForoshi.Implementation.Tools;
 using FishForoshi.ViewModel.Common;
+using System.Security.Cryptography;
 
 namespace FishForoshi.Implementation
 {
@@ -34,14 +35,14 @@ namespace FishForoshi.Implementation
             var foods = await _query.GetAllAsync();
 
             var result = foods
-                .Where(x => (FoodType)x.FoodType == FoodType.Soldier 
-                && 
+                .Where(x => (FoodType)x.FoodType == FoodType.Soldier
+                &&
                 (MealType)x.MealType == MealType.BreakFast)
                 .Select(x => new SelectListDto
-            {
-                Id = x.Id,
-                Name = x.Name
-            });
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name
+                });
 
             return result;
         }
@@ -55,8 +56,8 @@ namespace FishForoshi.Implementation
                 (MealType)x.MealType == MealType.Launch)
                 .Select(x => new SelectListDto
                 {
-                    Id = x.Id,
-                    Name = x.Name
+                    Value = x.Id.ToString(),
+                    Text = x.Name
                 });
 
             return result;
@@ -71,8 +72,8 @@ namespace FishForoshi.Implementation
                 (MealType)x.MealType == MealType.Snack)
                 .Select(x => new SelectListDto
                 {
-                    Id = x.Id,
-                    Name = x.Name
+                    Value = x.Id.ToString(),
+                    Text = x.Name
                 });
 
             return result;
@@ -88,8 +89,8 @@ namespace FishForoshi.Implementation
                 (MealType)x.MealType == MealType.Launch)
                 .Select(x => new SelectListDto
                 {
-                    Id = x.Id,
-                    Name = x.Name
+                    Value = x.Id.ToString(),
+                    Text = x.Name
                 });
 
             return result;
@@ -105,8 +106,8 @@ namespace FishForoshi.Implementation
                 (MealType)x.MealType == MealType.Dinnder)
                 .Select(x => new SelectListDto
                 {
-                    Id = x.Id,
-                    Name = x.Name
+                    Value = x.Id.ToString(),
+                    Text = x.Name
                 });
 
             return result;

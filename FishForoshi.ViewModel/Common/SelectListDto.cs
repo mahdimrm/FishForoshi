@@ -2,7 +2,7 @@
 {
     public class SelectListDto
     {
-        public dynamic Id { get; set; }
-        public string Name { get; set; }
+        public dynamic Value { get; set; }
+        public string Text { get; set; }
     }
 }

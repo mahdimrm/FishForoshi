@@ -1,6 +1,8 @@
 ﻿using FishForoshi.Abstraction;
+using FishForoshi.Abstraction.Statistic;
 using FishForoshi.Database;
 using FishForoshi.Implementation;
+using FishForoshi.Implementation.Statistic;
 using Infrastructure.Implementation.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +39,12 @@ public static class Injector
         #region Norm
         services.AddTransient<IGetNorm, GetNorm>();
         services.AddTransient<INormAction, NormAction>();
+        #endregion
+
+        #region Statistic
+
+        services.AddTransient<IGetStatistic, GetStatistic>();
+
         #endregion
     }
 }

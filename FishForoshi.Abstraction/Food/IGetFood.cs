@@ -12,10 +12,8 @@ namespace FishForoshi.Abstraction
 
         Task<IEnumerable<SelectListDto>> GetBreakFastNames();
         Task<IEnumerable<SelectListDto>> GetEmployeeLaunchNames();
+        Task<IEnumerable<SelectListDto>> GetSnackNames();
         Task<IEnumerable<SelectListDto>> GetSoldierLaunchNames();
         Task<IEnumerable<SelectListDto>> GetSoldierDinndersNames();
-
-
-
     }
 }

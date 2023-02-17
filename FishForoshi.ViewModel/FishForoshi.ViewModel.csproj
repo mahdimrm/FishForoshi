@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FishForoshi.Entitiea\FishForoshi.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

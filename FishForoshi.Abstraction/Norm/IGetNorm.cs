@@ -8,5 +8,6 @@ namespace FishForoshi.Abstraction
         Task<IPagedList<Norm>> GetNormsAsync(int pageNumber, string name,Guid id);
 
         Task<Norm> GetByIdAsync(Guid id);
+        Task<IEnumerable<Norm>> Norms(Guid foodId);
     }
 }

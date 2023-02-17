@@ -32,7 +32,6 @@ namespace FishForoshi.Implementation
             var model = await _query.GetAsync(food.Id);
 
             model.Name = food.Name;
-            model.FoodType = food.FoodType;
             model.Price = food.Price;
             model.MealType = food.MealType;
 

@@ -2,6 +2,7 @@
 using FishForoshi.Abstraction.Tools;
 using FishForoshi.Entities;
 using FishForoshi.Implementation.Tools;
+using System.Xml.Linq;
 
 namespace FishForoshi.Implementation
 {
@@ -28,5 +29,12 @@ namespace FishForoshi.Implementation
             }
             return new PagedList<Norm>(norms, pageNumber, 10);
         }
+
+        public async Task<IEnumerable<Norm>> Norms(Guid foodId)
+        {
+            var norms = await _query.GetAllAsync(x => x.FoodId == foodId);
+            return norms;
+        }
+
     }
 }

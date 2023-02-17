@@ -20,9 +20,6 @@ namespace FishForoshi.Entities
         [Display(Name = "نوع وعده")]
         [Required(ErrorMessage = "  لطفا {0} وارد کنید")]
         public byte MealType { get; set; }
-
-
-
         public virtual List<Norm> Norms { get; set; }
     }
     public enum FoodActionStatus

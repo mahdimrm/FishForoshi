@@ -1,1 +1,127 @@
-﻿
+﻿@using FishForoshi.Abstraction.Tools;
+@using FishForoshi.Entities;
+@using FishForoshi.ViewModel.Statistic;
+@using FishForoshi.Web.Tools;
+
+@model IEnumerable<CadreHallStatisticViewModel>
+
+@{
+    ViewData["Title"] = "آمار غذایی سالن کادر";
+    string foodType;
+    string mealType;
+}
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="CadreHallStatistics" asp-controller="Statistics" method="post">
+            <div class="form-group">
+                <label class="control-label">صبحانه</label>
+                <select name="foodIds" asp-items="@ViewBag.BreakFasts" required class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">تعداد</label>
+                <input name="counts" required type="number" class="form-control" />
+            </div>
+
+            <br />
+            <br />
+
+            <div class="form-group">
+                <label class="control-label">ناهار اول کادری</label>
+                <select name="foodIds" asp-items="@ViewBag.EmployeeLaunchs" required class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">تعداد</label>
+                <input name="counts" required type="number" class="form-control" />
+            </div>
+            <br />
+            <br />
+
+            <div class="form-group">
+                <label class="control-label">ناهار دوم کادری </label>
+                <select name="foodIds" asp-items="ViewBag.EmployeeLaunchs" required class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">تعداد</label>
+                <input name="counts" required type="number" class="form-control" />
+            </div>
+            <br />
+            <br />
+
+            <div class="form-group">
+                <label class="control-label">ناهار سازمانی</label>
+                <select name="foodIds" asp-items="ViewBag.SoldierLaunchs" required class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">تعداد</label>
+                <input name="counts" required type="number" class="form-control" />
+            </div>
+            <br />
+            <br />
+
+            <div class="form-group">
+                <label class="control-label">میان وعده</label>
+                <select name="foodIds" asp-items="ViewBag.Snacks" required class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">تعداد</label>
+                <input name="counts" required type="number" class="form-control" />
+            </div>
+
+            <br />
+            <br />
+
+            <div class="form-group">
+                <label class="control-label">شام</label>
+                <select name="foodIds" asp-items="ViewBag.Dinners" required class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">تعداد</label>
+                <input name="counts" required type="number" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary mr-1 mb-1 active btn-pointer">بستن آمار </button>
+
+        </form>
+    </div>
+</div>
+@if (Model != null)
+{
+    <div class="content-body">
+        <section id="person-list-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-content table-responsive ">
+                            <table class="table mb-0 line-height-1">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            نام
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="groups-table-body">
+                                    @foreach (var data in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <label>@data.FoodName  (@data.MealType)</label>
+                                            </td>
+                                            @foreach (var norm in data.Norms)
+                                            {
+                                                <td>
+                                                    <label>@norm.Name</label> : <label>@norm.Value.ToString("#,0")</label>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+}
