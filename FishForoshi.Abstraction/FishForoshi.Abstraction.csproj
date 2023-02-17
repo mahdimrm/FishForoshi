@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FishForoshi.Entitiea\FishForoshi.Entities.csproj" />
+    <ProjectReference Include="..\FishForoshi.ViewModel\FishForoshi.ViewModel.csproj" />
   </ItemGroup>
 
 </Project>

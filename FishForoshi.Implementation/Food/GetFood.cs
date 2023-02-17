@@ -2,7 +2,7 @@
 using FishForoshi.Abstraction.Tools;
 using FishForoshi.Entities;
 using FishForoshi.Implementation.Tools;
-using System.Security.Cryptography.X509Certificates;
+using FishForoshi.ViewModel.Common;
 
 namespace FishForoshi.Implementation
 {
@@ -27,6 +27,89 @@ namespace FishForoshi.Implementation
                 foods = foods.Where(x => x.Name.Contains(name));
             }
             return new PagedList<Food>(foods, pageNumber, 10);
+        }
+
+        public async Task<IEnumerable<SelectListDto>> GetBreakFastNames()
+        {
+            var foods = await _query.GetAllAsync();
+
+            var result = foods
+                .Where(x => (FoodType)x.FoodType == FoodType.Soldier 
+                && 
+                (MealType)x.MealType == MealType.BreakFast)
+                .Select(x => new SelectListDto
+            {
+                Id = x.Id,
+                Name = x.Name
+            });
+
+            return result;
+        }
+        public async Task<IEnumerable<SelectListDto>> GetEmployeeLaunchNames()
+        {
+            var foods = await _query.GetAllAsync();
+
+            var result = foods
+                .Where(x => (FoodType)x.FoodType == FoodType.Employee
+                &&
+                (MealType)x.MealType == MealType.Launch)
+                .Select(x => new SelectListDto
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                });
+
+            return result;
+        }
+        public async Task<IEnumerable<SelectListDto>> GetSnackNames()
+        {
+            var foods = await _query.GetAllAsync();
+
+            var result = foods
+                .Where(x => (FoodType)x.FoodType == FoodType.Employee
+                &&
+                (MealType)x.MealType == MealType.Snack)
+                .Select(x => new SelectListDto
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                });
+
+            return result;
+        }
+
+        public async Task<IEnumerable<SelectListDto>> GetSoldierLaunchNames()
+        {
+            var foods = await _query.GetAllAsync();
+
+            var result = foods
+                .Where(x => (FoodType)x.FoodType == FoodType.Soldier
+                &&
+                (MealType)x.MealType == MealType.Launch)
+                .Select(x => new SelectListDto
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                });
+
+            return result;
+        }
+
+        public async Task<IEnumerable<SelectListDto>> GetSoldierDinndersNames()
+        {
+            var foods = await _query.GetAllAsync();
+
+            var result = foods
+                .Where(x => (FoodType)x.FoodType == FoodType.Soldier
+                &&
+                (MealType)x.MealType == MealType.Dinnder)
+                .Select(x => new SelectListDto
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                });
+
+            return result;
         }
     }
 }

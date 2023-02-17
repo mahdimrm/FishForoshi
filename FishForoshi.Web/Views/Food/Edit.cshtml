@@ -8,17 +8,15 @@
 
 <div class="col-md-12">
     <form asp-action="Edit" asp-controller="Food" asp-route-id="@Model.Id" method="post">
-        <input hidden="@Model.Id" /> 
+        <input hidden="@Model.Id" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Name" class="control-label"></label>
             <input asp-for="Name" required type="text" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="Price"  class="control-label"></label>
+            <label asp-for="Price" class="control-label"></label>
             <input asp-for="Price" required type="number" class="form-control" />
-            <span asp-validation-for="Price" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="FoodType" class="control-label"></label>
@@ -26,7 +24,15 @@
                 <option value="1">سرباز</option>
                 <option value="2">کارکنان</option>
             </select>
-            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MealType" class="control-label"></label>
+            <select asp-for="MealType" required class="form-control">
+                <option value="1">صبحانه</option>
+                <option value="2">ناهار</option>
+                <option value="3">میان وعده</option>
+                <option value="4">شام</option>
+            </select>
         </div>
         <div class="form-group">
             <button class="btn btn-warning btn-block">ویرایش</button>

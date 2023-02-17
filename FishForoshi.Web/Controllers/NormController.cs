@@ -8,22 +8,28 @@ namespace FishForoshi.Web.Controllers
     {
         private readonly IGetNorm _query;
         private readonly INormAction _action;
+        private readonly IGetFood _foodQuery;
 
-        public NormController(IGetNorm query, INormAction action)
+        public NormController(IGetNorm query, INormAction action, IGetFood foodQuery)
         {
             _query = query;
             _action = action;
+            _foodQuery = foodQuery;
         }
 
         public async Task<IActionResult> Index(int page, string name, Guid id)
         {
+            var food = await _foodQuery.GetByIdAsync(id);
             var result = await _query.GetNormsAsync(page, name, id);
+            ViewBag.foodName = food.Name;
+            ViewBag.foodId = id;
             return View(result);
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create(Guid id)
         {
+            ViewBag.foodId = id;
             return View();
         }
 
@@ -31,7 +37,13 @@ namespace FishForoshi.Web.Controllers
         public async Task<IActionResult> Create(Norm norm)
         {
             var result = await _action.CreateAsync(norm);
-            return NormActionResult(result);
+            if (result == NormActionStatus.Success)
+            {
+                TempData[SuccessMessage] = "عملیات با موفقیت انجام شد ";
+                return Redirect($"/Norm/Index?id={norm.FoodId}");
+            }
+            TempData[ErrorMessage] = "خطا";
+            return Ok();
         }
 
         [HttpGet]
@@ -47,22 +59,13 @@ namespace FishForoshi.Web.Controllers
         public async Task<IActionResult> ConfirmationDelete(Guid id)
         {
             var result = await _action.DeleteAsync(id);
-            return NormActionResult(result);
-        }
-        public IActionResult NormActionResult(NormActionStatus status)
-        {
-            switch (status)
+            if (result == NormActionStatus.Success)
             {
-                case NormActionStatus.Success:
-                    TempData[SuccessMessage] = "عملیات با موفقیت انجام شد ";
-                    return RedirectToAction("Index");
-                case NormActionStatus.Failed:
-                    TempData[ErrorMessage] = "خطا";
-                    return RedirectToAction("Index");
-                default:
-                    TempData[ErrorMessage] = "دوباره امتحان کنید";
-                    return RedirectToAction("Index");
+                TempData[SuccessMessage] = "عملیات با موفقیت انجام شد ";
+                return Redirect(HttpContext.Request.Headers["Referer"]);
             }
+            TempData[ErrorMessage] = "خطا";
+            return View();
         }
     }
 }

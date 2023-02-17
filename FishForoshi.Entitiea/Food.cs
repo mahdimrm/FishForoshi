@@ -17,6 +17,12 @@ namespace FishForoshi.Entities
         [Required(ErrorMessage = "  لطفا {0} وارد کنید")]
         public byte FoodType { get; set; }
 
+        [Display(Name = "نوع وعده")]
+        [Required(ErrorMessage = "  لطفا {0} وارد کنید")]
+        public byte MealType { get; set; }
+
+
+
         public virtual List<Norm> Norms { get; set; }
     }
     public enum FoodActionStatus
@@ -30,6 +36,13 @@ namespace FishForoshi.Entities
     {
         Soldier = 1,
         Employee = 2
+    }
+    public enum MealType
+    {
+        BreakFast = 1,
+        Launch = 2,
+        Snack = 3,
+        Dinnder = 4
     }
 
 }

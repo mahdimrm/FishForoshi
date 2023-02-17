@@ -1,5 +1,6 @@
 ﻿using FishForoshi.Abstraction.Tools;
 using FishForoshi.Entities;
+using FishForoshi.ViewModel.Common;
 
 namespace FishForoshi.Abstraction
 {
@@ -8,5 +9,13 @@ namespace FishForoshi.Abstraction
         Task<IPagedList<Food>> GetFoodsAsync(int pageNumber, string name);
 
         Task<Food> GetByIdAsync(Guid id);
+
+        Task<IEnumerable<SelectListDto>> GetBreakFastNames();
+        Task<IEnumerable<SelectListDto>> GetEmployeeLaunchNames();
+        Task<IEnumerable<SelectListDto>> GetSoldierLaunchNames();
+        Task<IEnumerable<SelectListDto>> GetSoldierDinndersNames();
+
+
+
     }
 }

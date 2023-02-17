@@ -9,8 +9,6 @@
             <span class="menu-title">کارتابل</span>
         </a>
     </li>
-
-
     <li class="has-sub">
         <a href="javascript:">
             <i class="bx bx-restaurant"></i>
@@ -27,6 +25,26 @@
                 <a asp-controller="Food" asp-action="Report">
                     <i class="bx bx-window-open"></i>
                     <span class="menu-item">گزارش غذا</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="has-sub">
+        <a href="javascript:">
+            <i class="bx bx-chart"></i>
+            <span class="menu-item">آمار</span>
+        </a>
+        <ul class="menu-content" style="">
+            <li>
+                <a asp-controller="Statistics" asp-action="CadreHallStatistics">
+                    <i class="bx bx-list-ol"></i>
+                    <span class="menu-item">آمار غذایی سالن کادر</span>
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Food" asp-action="Report">
+                    <i class="bx bx-window-open"></i>
+                    <span class="menu-item">آمار جیره غذایی سربازان</span>
                 </a>
             </li>
         </ul>

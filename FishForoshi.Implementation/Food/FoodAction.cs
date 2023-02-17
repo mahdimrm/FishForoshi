@@ -34,6 +34,7 @@ namespace FishForoshi.Implementation
             model.Name = food.Name;
             model.FoodType = food.FoodType;
             model.Price = food.Price;
+            model.MealType = food.MealType;
 
             return await _action.UpdateAsync(model)
                 ? FoodActionStatus.Success : FoodActionStatus.Failed;

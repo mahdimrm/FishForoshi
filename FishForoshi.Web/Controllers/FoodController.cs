@@ -8,16 +8,11 @@ namespace FishForoshi.Web.Controllers
     {
         private readonly IGetFood _query;
         private readonly IFoodAction _action;
-        private readonly IGetNorm _normQuery;
-        private readonly INormAction _normAction;
-        public FoodController(IGetFood query, IFoodAction action, IGetNorm normQuery, INormAction normAction)
+        public FoodController(IGetFood query, IFoodAction action)
         {
             _query = query;
             _action = action;
-            _normQuery = normQuery;
-            _normAction = normAction;
         }
-
 
         public async Task<IActionResult> Index(int page, string name)
         {
@@ -49,6 +44,7 @@ namespace FishForoshi.Web.Controllers
             }
             return View(food);
         }
+
         [HttpPost]
         public async Task<IActionResult> Edit(Food food)
         {

@@ -32,7 +32,7 @@
     <section id="person-list-content">
         <div class="row">
             <div class="col-12">
-                <a class="btn btn-primary mr-1 mb-1 active btn-pointer" onclick="createNorm()">ایجاد نرم جدید</a>
+                <a class="btn btn-primary mr-1 mb-1 active btn-pointer" onclick="createNorm({id:'@ViewBag.foodId',name:'@ViewBag.foodName'})">ایجاد نرم جدید</a>
             </div>
         </div>
         <div class="row">
@@ -62,10 +62,10 @@
                                             @item.Name
                                         </td>
                                         <td>
-                                                @item.Value.ToString("#,0")
+                                            @item.Value.ToString("#,0")
                                         </td>
                                         <td>
-                                                @item.InsertDateTime.ToPersianDate()
+                                            @item.InsertDateTime.ToPersianDate()
                                         </td>
                                         <td>
                                             <a onclick="deleteNorm({id:'@item.Id',name:'@item.Name'})">
@@ -86,9 +86,9 @@
 
 <script type="text/javascript">
     //Create Norm
-    const createNorm = () => {
-        fetch(`/Norm/Create`, getHtmlApiCallOptions).then(async (res) => {
-            createModal(`ایجاد نرم`, await res.text())
+    const createNorm = ({ id, name }) => {
+        fetch(`/Norm/Create?id=${id}`, getHtmlApiCallOptions).then(async (res) => {
+            createModal(`ایجاد نرم ${name}`, await res.text())
         })
     }
 
