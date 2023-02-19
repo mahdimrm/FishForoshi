@@ -29,10 +29,13 @@
             <label asp-for="MealType" class="control-label"></label>
             <select asp-for="MealType" required class="form-control">
                 <option value="1">صبحانه</option>
-                <option value="2">ناهار</option>
-                <option value="3">میان وعده</option>
-                <option value="4">شام</option>
+                <option value="2">ناهار سازمانی</option>
+                <option value="3">ناهار اول کادر</option>
+                <option value="4">ناهار دوم کادر</option>
+                <option value="5">میان وعده</option>
+                <option value="6">شام</option>
             </select>
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="form-group">
             <button class="btn btn-warning btn-block">ویرایش</button>

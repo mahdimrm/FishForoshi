@@ -41,7 +41,8 @@ namespace FishForoshi.Implementation.Statistic
                 {
                     FoodName = item.Name,
                     MealType = GenerateTypes((MealType)item.MealType, (FoodType)item.FoodType),
-                    Norms = foodNorms
+                    Norms = foodNorms,
+                    FoodCount = count
                 });
 
             }

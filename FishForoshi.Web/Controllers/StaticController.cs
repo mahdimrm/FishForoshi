@@ -1,11 +1,14 @@
 ﻿using ClosedXML;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using FishForoshi.Abstraction;
 using FishForoshi.Abstraction.Statistic;
 using FishForoshi.ViewModel.Common;
 using FishForoshi.ViewModel.Statistic;
+using FishForoshi.Web.Tools;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Drawing;
 
 namespace FishForoshi.Web.Controllers
@@ -69,33 +72,45 @@ namespace FishForoshi.Web.Controllers
             ViewBag.Dinners = Dinners;
 
             var result = await _statisticsQuery.GenerateCadreHallStatistics(foodIds, Counts);
-            return Excel(result);
+            return Excel(result.ToList());
         }
-        public IActionResult Excel(IEnumerable<CadreHallStatisticViewModel> statistics)
+        public IActionResult Excel(List<CadreHallStatisticViewModel> statistics)
         {
             using (var workbook = new XLWorkbook())
             {
-                var worksheet = workbook.Worksheets.Add($"آمار");
+                var worksheet = workbook.Worksheets.Add("آمار");
+
+                //Styles
                 workbook.Style.Font.Bold = true;
                 worksheet.RightToLeft = true;
-                worksheet.RowHeight = 20;
-                worksheet.ColumnWidth = 20;
+                worksheet.RowHeight = 25;
+                worksheet.ColumnWidth = 25;
+                worksheet.SetTabColor(XLColor.Black);
 
-                var currentRow = 1;
+                //Ranges 
+                var ranges = worksheet.Cells("A2:F2");
+                var countRanges = worksheet.Cells("A1:F1");
 
-                var ranges = worksheet.Cells("A1:F1");
+                //Indexes
+                var currentRow = 3;
+                int index = 0;
 
-                foreach (var statistic in statistics)
+                foreach (var item in countRanges)
                 {
-                    currentRow++;
-                    foreach (var range in ranges)
+                    item.Value = $"تعداد : {statistics[index].FoodCount}";
+                    index++;
+                }
+                index = 0;
+                foreach (var range in ranges)
+                {
+                    range.Value = $"{statistics[index].FoodName} " + $"({statistics[index].MealType})";
+                    foreach (var norm in statistics[index].Norms)
                     {
-                        range.Value = $"{statistic.FoodName} " + $"({statistic.MealType})";
-                        foreach (var item in statistic.Norms)
-                        {
-                            worksheet.Cell(currentRow,1 ).Value = $"{item.Name} " + $"{item.Value.ToString("#,0")}";
-                        }
+                        worksheet.Cell(currentRow, range.WorksheetColumn().ColumnLetter()).Value = $"{norm.Name}" + $"{norm.Value.ToString("#,0")}";
+                        currentRow++;
                     }
+                    currentRow = 3;
+                    index++;
                 }
 
                 using (var stream = new MemoryStream())
@@ -105,8 +120,8 @@ namespace FishForoshi.Web.Controllers
 
                     return File(
                         content,
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "آمار.xlsx");
+                        $"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        $"{DateTime.Now.ToPersianDate()}|آمار.xlsx");
                 }
             }
         }
