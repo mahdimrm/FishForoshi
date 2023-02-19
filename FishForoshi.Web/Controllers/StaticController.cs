@@ -93,7 +93,7 @@ namespace FishForoshi.Web.Controllers
                         range.Value = $"{statistic.FoodName} " + $"({statistic.MealType})";
                         foreach (var item in statistic.Norms)
                         {
-                            worksheet.Cell(currentRow, ).Value = $"{item.Name} " + $"{item.Value.ToString("#,0")}";
+                            worksheet.Cell(currentRow,1 ).Value = $"{item.Name} " + $"{item.Value.ToString("#,0")}";
                         }
                     }
                 }
