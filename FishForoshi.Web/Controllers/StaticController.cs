@@ -1,8 +1,12 @@
-﻿using FishForoshi.Abstraction;
+﻿using ClosedXML;
+using ClosedXML.Excel;
+using FishForoshi.Abstraction;
 using FishForoshi.Abstraction.Statistic;
 using FishForoshi.ViewModel.Common;
+using FishForoshi.ViewModel.Statistic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Drawing;
 
 namespace FishForoshi.Web.Controllers
 {
@@ -65,7 +69,46 @@ namespace FishForoshi.Web.Controllers
             ViewBag.Dinners = Dinners;
 
             var result = await _statisticsQuery.GenerateCadreHallStatistics(foodIds, Counts);
-            return View(result);
+            return Excel(result);
+        }
+        public IActionResult Excel(IEnumerable<CadreHallStatisticViewModel> statistics)
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add($"آمار");
+                workbook.Style.Font.Bold = true;
+                worksheet.RightToLeft = true;
+                worksheet.RowHeight = 20;
+                worksheet.ColumnWidth = 20;
+
+                var currentRow = 1;
+
+                var ranges = worksheet.Cells("A1:F1");
+
+                foreach (var statistic in statistics)
+                {
+                    currentRow++;
+                    foreach (var range in ranges)
+                    {
+                        range.Value = $"{statistic.FoodName} " + $"({statistic.MealType})";
+                        foreach (var item in statistic.Norms)
+                        {
+                            worksheet.Cell(currentRow, ).Value = $"{item.Name} " + $"{item.Value.ToString("#,0")}";
+                        }
+                    }
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "آمار.xlsx");
+                }
+            }
         }
     }
 }

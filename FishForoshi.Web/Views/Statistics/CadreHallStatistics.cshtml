@@ -7,8 +7,6 @@
 
 @{
     ViewData["Title"] = "آمار غذایی سالن کادر";
-    string foodType;
-    string mealType;
 }
 <div class="row">
     <div class="col-md-6">
@@ -90,7 +88,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-content table-responsive ">
+                        <div class="card-content table-responsive table-hover">
                             <table class="table mb-0 line-height-1">
                                 <thead>
                                     <tr>
@@ -104,14 +102,16 @@
                                     @foreach (var data in Model)
                                     {
                                         <tr>
-                                            <td>
+                                            <th>
                                                 <label>@data.FoodName  (@data.MealType)</label>
-                                            </td>
+                                            </th>
+                                        </tr>
+                                        <tr>
                                             @foreach (var norm in data.Norms)
                                             {
-                                                <td>
+                                                <th>
                                                     <label>@norm.Name</label> : <label>@norm.Value.ToString("#,0")</label>
-                                                </td>
+                                                </th>
                                             }
                                         </tr>
                                     }
@@ -123,5 +123,4 @@
             </div>
         </section>
     </div>
-
 }
