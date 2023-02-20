@@ -21,9 +21,9 @@ namespace FishForoshi.Entities
         Failed = 1,
         NotFound = 2,
     }
-    public enum StaffType
+    public enum BarberType
     {
-        Soldier = 0,
-        Employee = 1,
+        Soldier = 1,
+        Employee = 2,
     }
 }

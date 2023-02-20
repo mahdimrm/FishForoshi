@@ -1,0 +1,120 @@
+﻿@using FishForoshi.Abstraction.Tools;
+@using FishForoshi.Entities;
+@using FishForoshi.Web.Tools;
+
+@model IEnumerable<Barber>
+
+@{
+    ViewData["Title"] = "آرایشگر  ها";
+}
+
+<div class="content-header row">
+    <div class="content-header-left col-12 my-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h5 class="content-header-title float-left">@ViewData["Title"]</h5>
+                <div class="breadcrumb-wrapper ">
+                    <ol class="breadcrumb p-0 pl-1 mb-0">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Home" asp-action="Index"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            @ViewData["Title"]
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="content-body">
+    <section id="person-list-content">
+        <div class="row">
+            <div class="col-12">
+                <a class="btn btn-primary mr-1 mb-1 active btn-pointer" onclick="createNorm()">ایجاد ارایشگر جدید</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-content table-responsive">
+                        <table class="table mb-0 line-height-1">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        نام
+                                    </th>
+                                    <th>
+                                        نوع پرسنل
+                                    </th>
+                                    <th>
+                                        تاریخ ایجاد
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="groups-table-body">
+                                @foreach (var item in Model)
+                                {
+                                    <tr id="@item.Id">
+                                        <td>
+                                            @item.FullName
+                                        </td>
+                                        <td>
+                                            @if (item.Type == 1)
+                                            {
+                                                <h6 class="text-success">سرباز</h6>
+                                            }
+                                            else if (item.Type == 2)
+                                            {
+                                                <h6 class="text-primary">کارمند</h6>
+
+                                            }
+                                        </td>
+                                        <td>
+                                            @item.InsertDateTime.ToPersianDate()
+                                        </td>
+                                        <td>
+                                            <a onclick="editBarber({id:'@item.Id',name:'@item.FullName'})">
+                                                <i class="badge-circle badge-circle-light-warning bx bxs-pencil font-medium-1"></i>
+                                            </a>
+                                        </td>
+
+                                        <td>
+                                            <a onclick="deleteBarber({id:'@item.Id',name:'@item.FullName'})">
+                                                <i class="badge-circle badge-circle-light-danger bx bxs-trash font-medium-1"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script type="text/javascript">
+    const createBarber = ({ id, name }) => {
+        fetch(`/Barber/Create?id=${id}`, getHtmlApiCallOptions).then(async (res) => {
+            createModal(`ایجاد آرایشگر ${name}`, await res.text())
+        })
+    }
+
+    const editBarber = ({ id, name }) => {
+        fetch(`/Barber/Edit?id=${id}`, getHtmlApiCallOptions).then(async (res) => {
+            createModal(`ویرایش آرایشگر ${name}`, await res.text())
+        })
+    }
+
+    const deleteBarber = ({ id, name }) => {
+        fetch(`/Barber/Delete?id=${id}`, getHtmlApiCallOptions).then(async (res) => {
+            createModal(`حذف آرایشگر ${name}`, await res.text())
+        })
+    }
+</script>
