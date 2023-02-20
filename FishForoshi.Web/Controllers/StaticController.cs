@@ -54,7 +54,7 @@ namespace FishForoshi.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CadreHallStatistics(List<Guid> foodIds, List<int> Counts)
+        public async Task<IActionResult> CadreHallStatistics(List<Guid> foodIds, List<int> Counts, string date)
         {
             var BreakFasts = MapSelectListItems(await _foodQuery.GetBreakFastNames());
             ViewBag.BreakFasts = BreakFasts;
@@ -72,9 +72,9 @@ namespace FishForoshi.Web.Controllers
             ViewBag.Dinners = Dinners;
 
             var result = await _statisticsQuery.GenerateCadreHallStatistics(foodIds, Counts);
-            return Excel(result.ToList());
+            return Excel(result.ToList(), date);
         }
-        public IActionResult Excel(List<CadreHallStatisticViewModel> statistics)
+        public IActionResult Excel(List<CadreHallStatisticViewModel> statistics, string date)
         {
             using (var workbook = new XLWorkbook())
             {
@@ -85,7 +85,6 @@ namespace FishForoshi.Web.Controllers
                 worksheet.RightToLeft = true;
                 worksheet.RowHeight = 25;
                 worksheet.ColumnWidth = 25;
-                worksheet.SetTabColor(XLColor.Black);
 
                 //Ranges 
                 var ranges = worksheet.Cells("A2:F2");
@@ -94,13 +93,14 @@ namespace FishForoshi.Web.Controllers
                 //Indexes
                 var currentRow = 3;
                 int index = 0;
+                int countIndex = 0;
 
                 foreach (var item in countRanges)
                 {
-                    item.Value = $"تعداد : {statistics[index].FoodCount}";
-                    index++;
+                    item.Value = $"تعداد : {statistics[countIndex].FoodCount}";
+                    countIndex++;
                 }
-                index = 0;
+
                 foreach (var range in ranges)
                 {
                     range.Value = $"{statistics[index].FoodName} " + $"({statistics[index].MealType})";
@@ -121,7 +121,7 @@ namespace FishForoshi.Web.Controllers
                     return File(
                         content,
                         $"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        $"{DateTime.Now.ToPersianDate()}|آمار.xlsx");
+                        $"{date}|آمار.xlsx");
                 }
             }
         }
