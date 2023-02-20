@@ -1,6 +1,8 @@
-﻿using FishForoshi.Abstraction;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using FishForoshi.Abstraction;
 using FishForoshi.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace FishForoshi.Web.Controllers
 {
@@ -14,9 +16,11 @@ namespace FishForoshi.Web.Controllers
             _action = action;
         }
 
-        public async Task<IActionResult> Index(int page, string name)
+        public async Task<IActionResult> Index(int page = 1, string? name = null, string? type = null)
         {
-            var result = await _query.GetFoodsAsync(page, name);
+            ViewBag.name = name;
+            ViewBag.type = type;
+            var result = await _query.GetFoodsAsync(page, name, type);
             return View(result);
         }
 

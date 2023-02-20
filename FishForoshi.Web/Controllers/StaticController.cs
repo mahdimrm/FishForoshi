@@ -1,19 +1,14 @@
-﻿using ClosedXML;
-using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+﻿using ClosedXML.Excel;
 using FishForoshi.Abstraction;
 using FishForoshi.Abstraction.Statistic;
 using FishForoshi.ViewModel.Common;
 using FishForoshi.ViewModel.Statistic;
-using FishForoshi.Web.Tools;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Drawing;
 
 namespace FishForoshi.Web.Controllers
 {
-    public class StatisticsController : Controller
+    public class StatisticsController : BaseController
     {
         private readonly IGetFood _foodQuery;
         private readonly IGetStatistic _statisticsQuery;
@@ -36,6 +31,7 @@ namespace FishForoshi.Web.Controllers
         }
         public async Task<IActionResult> CadreHallStatistics()
         {
+            #region ViewBags
             var BreakFasts = MapSelectListItems(await _foodQuery.GetBreakFastNames());
             ViewBag.BreakFasts = BreakFasts;
 
@@ -50,12 +46,15 @@ namespace FishForoshi.Web.Controllers
 
             var Dinners = MapSelectListItems(await _foodQuery.GetSoldierDinndersNames());
             ViewBag.Dinners = Dinners;
+            #endregion
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> CadreHallStatistics(List<Guid> foodIds, List<int> Counts, string date)
         {
+            #region ViewBag
             var BreakFasts = MapSelectListItems(await _foodQuery.GetBreakFastNames());
             ViewBag.BreakFasts = BreakFasts;
 
@@ -70,6 +69,7 @@ namespace FishForoshi.Web.Controllers
 
             var Dinners = MapSelectListItems(await _foodQuery.GetSoldierDinndersNames());
             ViewBag.Dinners = Dinners;
+            #endregion
 
             var result = await _statisticsQuery.GenerateCadreHallStatistics(foodIds, Counts);
             return Excel(result.ToList(), date);
@@ -106,7 +106,7 @@ namespace FishForoshi.Web.Controllers
                     range.Value = $"{statistics[index].FoodName} " + $"({statistics[index].MealType})";
                     foreach (var norm in statistics[index].Norms)
                     {
-                        worksheet.Cell(currentRow, range.WorksheetColumn().ColumnLetter()).Value = $"{norm.Name}" + $"{norm.Value.ToString("#,0")}";
+                        worksheet.Cell(currentRow, range.WorksheetColumn().ColumnLetter()).Value = $"{norm.Name}  " + $"  {norm.Value.ToString("#,0")}";
                         currentRow++;
                     }
                     currentRow = 3;

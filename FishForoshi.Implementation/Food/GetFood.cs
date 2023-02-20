@@ -19,13 +19,18 @@ namespace FishForoshi.Implementation
         public async Task<Food> GetByIdAsync(Guid id)
             => await _query.GetAsync(id);
 
-        public async Task<IPagedList<Food>> GetFoodsAsync(int pageNumber, string name)
+        public async Task<IPagedList<Food>> GetFoodsAsync(int pageNumber, string name, string type)
         {
             var foods = await _query.GetAllAsync();
 
             if (name != null)
             {
                 foods = foods.Where(x => x.Name.Contains(name));
+            }
+
+            if (type != null)
+            {
+                foods = foods.Where(x => x.FoodType == byte.Parse(type));
             }
             return new PagedList<Food>(foods, pageNumber, 10);
         }

@@ -1,6 +1,7 @@
 ﻿@using FishForoshi.Abstraction.Tools;
 @using FishForoshi.Entities;
 @using FishForoshi.Web.Tools;
+@using Presentation.MvcUI.Infrastructure.TagHelper;
 
 @model IPagedList<Food>
 
@@ -33,6 +34,31 @@
         <div class="row">
             <div class="col-12">
                 <a class="btn btn-primary mr-1 mb-1 active btn-pointer" onclick="createFood()">ایجاد غذا جدید</a>
+
+                <form asp-action="Index" asp-controller="Food" method="get">
+                    <div class="col-md-12 form-group">
+                        <div class="col-md-4">
+                            <label>نام:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" name="name" value="@Context.Request.Query["name"]" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>نوع:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <select name="type" id="@Context.Request.Query["type"]" required class="form-control">
+                                <option value="1">سرباز</option>
+                                <option value="2">کارکنان</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 form-group"> تعداد: @Model.TotalItems </div>
+                    <div class="col-md-3 form-group">
+                        <button type="submit" class="btn btn-block btn-info btn-sm"> جستجو </button>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="row">
@@ -106,6 +132,13 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-7">
+                @Html.PagedListPager(Model,
+                page => Url.Action("Index", "Food",
+                new { pageNumber = page, name = Context.Request.Query["name"],type = Context.Request.Query["type"]}))
             </div>
         </div>
     </section>

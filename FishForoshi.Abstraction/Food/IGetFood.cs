@@ -6,7 +6,7 @@ namespace FishForoshi.Abstraction
 {
     public interface IGetFood
     {
-        Task<IPagedList<Food>> GetFoodsAsync(int pageNumber, string name);
+        Task<IPagedList<Food>> GetFoodsAsync(int pageNumber, string name, string type);
 
         Task<Food> GetByIdAsync(Guid id);
 
