@@ -3,7 +3,6 @@ using FishForoshi.Abstraction.Tools;
 using FishForoshi.Entities;
 using FishForoshi.Implementation.Tools;
 using FishForoshi.ViewModel.Common;
-using System.Security.Cryptography;
 
 namespace FishForoshi.Implementation
 {

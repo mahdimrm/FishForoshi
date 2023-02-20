@@ -18,4 +18,9 @@
     <ProjectReference Include="..\FishForoshi.Implementation\FishForoshi.Implementation.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Barber\" />
+    <Folder Include="Views\BarberQueue\" />
+  </ItemGroup>
+
 </Project>

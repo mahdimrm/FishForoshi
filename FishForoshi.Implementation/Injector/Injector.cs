@@ -41,6 +41,19 @@ public static class Injector
         services.AddTransient<INormAction, NormAction>();
         #endregion
 
+        #region Barber
+
+        services.AddTransient<IGetBarber, GetBarber>();
+        services.AddTransient<IBarberAction, BarberAction>();
+        #endregion
+
+        #region CustomerTurn
+
+        services.AddTransient<IGetCustomerTurn, GetCustomerTurn>();
+        services.AddTransient<ICustomerTurnAction, CustomerTurnAction>();
+
+        #endregion
+
         #region Statistic
 
         services.AddTransient<IGetStatistic, GetStatistic>();
