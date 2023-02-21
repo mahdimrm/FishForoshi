@@ -17,7 +17,7 @@ namespace FishForoshi.Web.Controllers
             _foodQuery = foodQuery;
         }
 
-        public async Task<IActionResult> Index(int page, string name, Guid id)
+        public async Task<IActionResult> Index(Guid id)
         {
             var food = await _foodQuery.GetByIdAsync(id);
             var result = await _query.GetNormsAsync(page, name, id);

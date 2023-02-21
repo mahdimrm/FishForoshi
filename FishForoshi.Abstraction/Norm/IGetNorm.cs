@@ -5,7 +5,7 @@ namespace FishForoshi.Abstraction
 {
     public interface IGetNorm
     {
-        Task<IPagedList<Norm>> GetNormsAsync(int pageNumber, string name,Guid id);
+        Task<IEnumerable<Norm>> GetNormsAsync(Guid id);
 
         Task<Norm> GetByIdAsync(Guid id);
         Task<IEnumerable<Norm>> Norms(Guid foodId);

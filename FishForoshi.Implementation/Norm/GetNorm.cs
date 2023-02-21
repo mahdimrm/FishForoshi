@@ -20,15 +20,9 @@ namespace FishForoshi.Implementation
         public async Task<Norm> GetByIdAsync(Guid id)
             => await _query.GetAsync(id);
 
-        public async Task<IPagedList<Norm>> GetNormsAsync(int pageNumber, string name, Guid foodId)
-        {
-            var norms = await _query.GetAllAsync(x => x.FoodId == foodId);
-            if (name != null)
-            {
-                norms = norms.Where(x => x.Name.Contains(name));
-            }
-            return new PagedList<Norm>(norms, pageNumber, 10);
-        }
+        public async Task<IEnumerable<Norm>> GetNormsAsync(Guid foodId)
+            => await _query.GetAllAsync(x => x.FoodId == foodId);
+
 
         public async Task<IEnumerable<Norm>> Norms(Guid foodId)
         {
