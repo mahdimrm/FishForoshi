@@ -32,7 +32,7 @@
     <section id="person-list-content">
         <div class="row">
             <div class="col-12">
-                <a class="btn btn-primary mr-1 mb-1 active btn-pointer" onclick="createNorm()">ایجاد ارایشگر جدید</a>
+                <a class="btn btn-primary mr-1 mb-1 active btn-pointer" onclick="createBarber()">ایجاد ارایشگر جدید</a>
             </div>
         </div>
         <div class="row">
@@ -100,9 +100,9 @@
 
 
 <script type="text/javascript">
-    const createBarber = ({ id, name }) => {
-        fetch(`/Barber/Create?id=${id}`, getHtmlApiCallOptions).then(async (res) => {
-            createModal(`ایجاد آرایشگر ${name}`, await res.text())
+    const createBarber = () => {
+        fetch(`/Barber/Create`, getHtmlApiCallOptions).then(async (res) => {
+            createModal(`ایجاد آرایشگر`, await res.text())
         })
     }
 
