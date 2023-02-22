@@ -33,7 +33,7 @@
     <section id="person-list-content">
         <div class="row">
             <div class="col-12">
-                <a class="btn btn-primary mr-1 mb-1 active btn-pointer" href="@Url.Action("Create","CustomerTurn")">ایجاد نوبت جدید</a>
+                <a class="btn btn-primary mr-1 mb-1 active btn-pointer" onclick="createTurn()">ایجاد نوبت جدید</a>
                 <form asp-action="Index" asp-controller="CustomerTurn" method="get">
                     <div class="col-md-6 form-group">
                         <div class="col-md-4">
@@ -133,6 +133,12 @@
 
 
 <script>
+
+    const createTurn = () => {
+        fetch(`/CustomerTurn/Create`, getHtmlApiCallOptions).then(async (res) => {
+            createModal(`ایجاد نوبت`, await res.text())
+        })
+    }
 
     const deleteturn = ({ id, name }) => {
         fetch(`/CustomerTurn/Delete?id=${id}`, getHtmlApiCallOptions).then(async (res) => {
