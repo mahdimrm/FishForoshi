@@ -20,7 +20,7 @@ namespace FishForoshi.Web.Controllers
         public async Task<IActionResult> Index(Guid id)
         {
             var food = await _foodQuery.GetByIdAsync(id);
-            var result = await _query.GetNormsAsync(page, name, id);
+            var result = await _query.GetNormsAsync(id);
             ViewBag.foodName = food.Name;
             ViewBag.foodId = id;
             return View(result);
