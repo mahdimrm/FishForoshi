@@ -4,6 +4,7 @@ using FishForoshi.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FishForoshi.Database.Migrations
 {
     [DbContext(typeof(FishForoshiContext))]
-    partial class FishForoshiContextModelSnapshot : ModelSnapshot
+    [Migration("20230221161813_Update_CustomerQueue_DataType")]
+    partial class Update_CustomerQueue_DataType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

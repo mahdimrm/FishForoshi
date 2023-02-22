@@ -1,5 +1,6 @@
 ﻿using FishForoshi.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Proxies;
 
 namespace FishForoshi.Database
 {
@@ -14,6 +15,7 @@ namespace FishForoshi.Database
         {
             if (!optionsBuilder.IsConfigured)
                 optionsBuilder.UseSqlServer(ConnectionString);
+            optionsBuilder.UseLazyLoadingProxies();
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -21,7 +23,6 @@ namespace FishForoshi.Database
             base.OnModelCreating(builder);
             builder.ApplySoftDelete();
             builder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-
         }
 
         public DbSet<Food> Foods { get; set; } = null!;
