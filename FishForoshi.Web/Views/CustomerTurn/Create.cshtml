@@ -17,25 +17,11 @@
             <input asp-for="CustomerName" required type="text" class="form-control" />
         </div>
         <p style="width:fit-content">
-            <label> ساعت</label>
-            <input asp-for="CustomerQueueTime" type="text" class="form-control pickatime-format">
+            <label class="control-label"> ساعت</label>
+            <input asp-for="CustomerQueueTime" type="text" class="form-control">
         </p>
         <div class="form-group">
             <button class="btn btn-primary btn-block">افزودن</button>
         </div>
     </form>
 </div>
-
-<script src="~/js/scripts/pickers/dateTime/pick-a-datetime.js"></script>
-<script>
-
-    $('.pickatime-format').pickatime({
-        // Escape any “rule” characters with an exclamation mark (!).
-        format: 'نوبت: h:i a',
-        formatLabel: 'HH',
-        formatSubmit: 'HH:i',
-        hiddenPrefix: 'prefix__',
-        hiddenSuffix: '__suffix'
-    });
-
-</script>

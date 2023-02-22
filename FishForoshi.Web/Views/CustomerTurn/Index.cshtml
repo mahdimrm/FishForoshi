@@ -52,7 +52,7 @@
                             <label>ساعت نوبت:</label>
                         </div>
                         <div class="col-md-6">
-                            <input class="form-control pickatime-format" type="text" name="day" value="@Context.Request.Query["day"]" />
+                            <input class="form-control" type="text" name="time" value="@Context.Request.Query["time"]" />
                         </div>
                     </div>
                     <div class="col-md-3 form-group"> تعداد: @Model.TotalItems </div>
@@ -125,14 +125,13 @@
                 page => Url.Action("Index", "CustomerTurn",
                 new { pageNumber = page, customerName = Context.Request.Query["customerName"],
                 barberName = Context.Request.Query["barberName"],
-                day = Context.Request.Query["day"]}))
+                time = Context.Request.Query["time"]}))
             </div>
         </div>
     </section>
 </div>
 
 
-<script src="~/js/scripts/pickers/dateTime/pick-a-datetime.js"></script>
 <script>
 
     const deleteturn = ({ id, name }) => {
@@ -140,13 +139,4 @@
             createModal(`حذف نوبت ${name}`, await res.text())
         })
     }
-
-    $('.pickatime-format').pickatime({
-        // Escape any “rule” characters with an exclamation mark (!).
-        format: 'نوبت: h:i a',
-        formatLabel: 'HH',
-        formatSubmit: 'HH:i',
-        hiddenPrefix: 'prefix__',
-        hiddenSuffix: '__suffix'
-    });
 </script>

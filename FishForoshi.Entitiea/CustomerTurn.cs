@@ -16,7 +16,6 @@ namespace FishForoshi.Entities
         [Display(Name = "ساعت")]
         public string CustomerQueueTime { get; set; }
 
-
         public virtual Barber BarberStaff { get; set; }
     }
     public enum CustomerTurnActionStatus

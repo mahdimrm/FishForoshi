@@ -19,12 +19,12 @@ namespace FishForoshi.Web.Controllers
             _barberQuery = barberQuery;
         }
 
-        public async Task<IActionResult> Index(int page = 1, string? barberName = null, string? customerName = null, string? day = null)
+        public async Task<IActionResult> Index(int page = 1, string? barberName = null, string? customerName = null, string? time = null)
         {
             ViewBag.barberName = barberName;
             ViewBag.customerName = customerName;
-            ViewBag.day = day;
-            var result = await _query.Get(page, barberName, customerName, day);
+            ViewBag.time = time;
+            var result = await _query.Get(page, barberName, customerName, time);
             return View(result);
         }
 
@@ -70,7 +70,7 @@ namespace FishForoshi.Web.Controllers
             if (result == CustomerTurnActionStatus.Success)
             {
                 TempData[SuccessMessage] = "عملیات با موفقیت انجام شد ";
-                return Redirect("Index");
+                return RedirectToAction("Index");
             }
             TempData[ErrorMessage] = "خطا";
             return View();

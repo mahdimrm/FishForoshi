@@ -14,15 +14,15 @@ namespace FishForoshi.Implementation
             _query = query;
         }
 
-        public async Task<IPagedList<CustomerTurn>> Get(int page, string barberName, string customerName, string day)
+        public async Task<IPagedList<CustomerTurn>> Get(int page, string barberName, string customerName, string time)
         {
             var turns = await _query.GetAllAsync();
 
             turns = turns.Where(x => x.InsertDateTime.Day == DateTime.Today.Day);
 
-            if (day != null)
+            if (time != null)
             {
-                turns = turns.Where(x => x.CustomerQueueTime == day);
+                turns = turns.Where(x => x.CustomerQueueTime.Contains(time));
             }
 
             if (barberName != null)
