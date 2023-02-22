@@ -14,7 +14,7 @@ namespace FishForoshi.Entities
 
         [Required]
         [Display(Name = "ساعت")]
-        public DateTime CustomerQueueTime { get; set; }
+        public string CustomerQueueTime { get; set; }
 
 
         public virtual Barber BarberStaff { get; set; }

@@ -1,0 +1,35 @@
+﻿@using FishForoshi.Entities;
+@model CustomerTurn
+
+@{
+    Layout = null;
+}
+
+<div class="content-body">
+    <section>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <fieldset class="form-group">
+                                        <label>نام مشتری</label>
+                                        <input type="text" class="form-control" asp-for="CustomerName" autocomplete="off" disabled>
+                                        <span asp-validation-for="CustomerName" class="invalid-feedback"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <a href="@Url.Action("ConfirmationDelete","CustomerTurn",new{id=Model.Id})" class="btn btn-danger btn-block">حذف</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

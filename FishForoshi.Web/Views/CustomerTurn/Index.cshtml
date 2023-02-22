@@ -1,0 +1,152 @@
+﻿@using FishForoshi.Abstraction.Tools;
+@using FishForoshi.Entities;
+@using FishForoshi.Web.Tools;
+@using Presentation.MvcUI.Infrastructure.TagHelper;
+
+@model IPagedList<CustomerTurn>
+
+@{
+    ViewData["Title"] = "نوبت ها";
+}
+
+<div class="content-header row">
+    <div class="content-header-left col-12 my-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h5 class="content-header-title float-left">@ViewData["Title"]</h5>
+                <div class="breadcrumb-wrapper ">
+                    <ol class="breadcrumb p-0 pl-1 mb-0">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Home" asp-action="Index"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            @ViewData["Title"]
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="content-body">
+    <section id="person-list-content">
+        <div class="row">
+            <div class="col-12">
+                <a class="btn btn-primary mr-1 mb-1 active btn-pointer" href="@Url.Action("Create","CustomerTurn")">ایجاد نوبت جدید</a>
+                <form asp-action="Index" asp-controller="CustomerTurn" method="get">
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4">
+                            <label>نام مشتری:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" name="customerName" value="@Context.Request.Query["customerName"]" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>نام آرایشگر:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" name="barberName" value="@Context.Request.Query["barberName"]" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>ساعت نوبت:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control pickatime-format" type="text" name="day" value="@Context.Request.Query["day"]" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 form-group"> تعداد: @Model.TotalItems </div>
+                    <div class="col-md-3 form-group">
+                        <button type="submit" class="btn btn-block btn-info btn-sm"> جستجو </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-content table-responsive">
+                        <table class="table mb-0 line-height-1">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        نام آرایشگر
+                                    </th>
+                                    <th>
+                                        نام مشتری
+                                    </th>
+                                    <th>
+                                        ساعت
+                                    </th>
+                                    <th>
+                                        تاریخ نوبت داده شده
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="groups-table-body">
+                                @foreach (var item in Model)
+                                {
+                                    <tr id="@item.Id">
+                                        <td>
+                                            @item.BarberStaff.FullName
+                                        </td>
+
+                                        <td>
+                                            @item.CustomerName
+                                        </td>
+
+                                        <td>
+                                            @item.CustomerQueueTime
+
+                                        </td>
+
+                                        <td>
+                                            @item.InsertDateTime.ToPersianDate()
+                                        </td>
+
+                                        <td>
+                                            <a onclick="deleteturn({id:'@item.Id',name:'@item.CustomerName'})">
+                                                <i class="badge-circle badge-circle-light-danger bx bxs-trash font-medium-1"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-7">
+                @Html.PagedListPager(Model,
+                page => Url.Action("Index", "CustomerTurn",
+                new { pageNumber = page, customerName = Context.Request.Query["customerName"],
+                barberName = Context.Request.Query["barberName"],
+                day = Context.Request.Query["day"]}))
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script src="~/js/scripts/pickers/dateTime/pick-a-datetime.js"></script>
+<script>
+
+    const deleteturn = ({ id, name }) => {
+        fetch(`/CustomerTurn/Delete?id=${id}`, getHtmlApiCallOptions).then(async (res) => {
+            createModal(`حذف نوبت ${name}`, await res.text())
+        })
+    }
+
+    $('.pickatime-format').pickatime({
+        // Escape any “rule” characters with an exclamation mark (!).
+        format: 'نوبت: h:i a',
+        formatLabel: 'HH',
+        formatSubmit: 'HH:i',
+        hiddenPrefix: 'prefix__',
+        hiddenSuffix: '__suffix'
+    });
+</script>
