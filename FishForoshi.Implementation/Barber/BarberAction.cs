@@ -34,9 +34,6 @@ public class BarberAction : IBarberAction
         return await _action.UpdateAsync(model)
             ? BarberActionStatus.Success : BarberActionStatus.Failed;
     }
-
-    public async Task<BarberActionStatus> UpsertAsync(Barber barber)
-        => barber?.Id is null ? await CreateAsync(barber) : await UpdateAsync(barber);
 }
 
 

@@ -82,13 +82,16 @@ namespace FishForoshi.Web.Controllers
 
                 //Styles
                 workbook.Style.Font.Bold = true;
+                workbook.Style.Font.Italic = true;
                 worksheet.RightToLeft = true;
                 worksheet.RowHeight = 25;
                 worksheet.ColumnWidth = 25;
+                
 
                 //Ranges 
                 var ranges = worksheet.Cells("A2:F2");
                 var countRanges = worksheet.Cells("A1:F1");
+                worksheet.Style.Border.BottomBorder = XLBorderStyleValues.MediumDashed;
 
                 //Indexes
                 var currentRow = 3;
@@ -104,7 +107,7 @@ namespace FishForoshi.Web.Controllers
                 foreach (var range in ranges)
                 {
                     range.Value = $"{statistics[index].FoodName} " + $"({statistics[index].MealType})";
-                    foreach (var norm in statistics[index].Norms)
+                    foreach (var norm in statistics[index].CalculatedNorms)
                     {
                         worksheet.Cell(currentRow, range.WorksheetColumn().ColumnLetter()).Value = $"{norm.Name}  " + $"  {norm.Value.ToString("#,0")}";
                         currentRow++;

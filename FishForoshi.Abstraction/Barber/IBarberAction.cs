@@ -6,7 +6,6 @@ namespace FishForoshi.Abstraction
     {
         Task<BarberActionStatus> CreateAsync(Barber barber);
         Task<BarberActionStatus> UpdateAsync(Barber barber);
-        Task<BarberActionStatus> UpsertAsync(Barber barber);
         Task<BarberActionStatus> DeleteAsync(Guid id);
     }
 }

@@ -54,7 +54,8 @@ namespace Presentation.MvcUI.Infrastructure.TagHelper
 				liTag.AddCssClass("paginate_button page-item active");
 			}
 			aTag.MergeAttribute("href", href);
-			aTag.AddCssClass("page-link");
+			liTag.AddCssClass("paginate_button page-item");
+            aTag.AddCssClass("page-link");
 			aTag.InnerHtml.AppendHtml(text);
 			liTag.InnerHtml.AppendHtml(aTag.RenderStartTag());
 			liTag.InnerHtml.AppendHtml(aTag.RenderBody());
