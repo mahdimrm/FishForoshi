@@ -4,9 +4,11 @@ namespace FishForoshi.Entities
 {
     public class Day : BaseEntity
     {
+        [Display(Name = "روز")]
         [Required]
         public string Name { get; set; }
 
+        [Display(Name = "شماره روز")]
         [Required]
         public string Date { get; set; }
     }

@@ -14,24 +14,26 @@ namespace FishForoshi.Implementation
             _action = action;
         }
 
-        public Task<DayActionStatus> CreateAsync(Day day)
+        public async Task<DayActionStatus> CreateAsync(Day day)
         {
-            throw new NotImplementedException();
+            var result = await _action.AddAsync(day);
+                      return result ? DayActionStatus.Success : DayActionStatus.Failed;
         }
 
-        public Task<DayActionStatus> DeleteAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<DayActionStatus> DeleteAsync(Guid id)
+            => await _action.DeleteByIdAsync(id)
+                                    ? DayActionStatus.Success
+                                    : DayActionStatus.Failed;
 
-        public Task<DayActionStatus> UpdateAsync(Day day)
+        public async Task<DayActionStatus> UpdateAsync(Day day)
         {
-            throw new NotImplementedException();
-        }
+            var model = await _query.GetAsync(day.Id);
 
-        public Task<DayActionStatus> UpsertAsync(Day day)
-        {
-            throw new NotImplementedException();
+            model.Name = day.Name;
+            model.Date = day.Date;
+
+            return await _action.UpdateAsync(model)
+                ? DayActionStatus.Success : DayActionStatus.Failed;
         }
     }
 }

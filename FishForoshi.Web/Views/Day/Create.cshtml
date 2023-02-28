@@ -1,0 +1,24 @@
+﻿@using FishForoshi.Entities;
+@model Day
+@{
+    ViewData["Title"] = "ایجاد روز ";
+    Layout = null;
+}
+
+<div class="col-md-12">
+    <form asp-action="Create" asp-controller="Day" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" required type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Date" class="control-label"></label>
+            <input asp-for="Date" required type="number" class="form-control" />
+        </div>
+       
+        <div class="form-group">
+            <button class="btn btn-primary btn-block">افزودن</button>
+        </div>
+    </form>
+</div>

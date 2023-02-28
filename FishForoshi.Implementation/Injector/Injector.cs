@@ -66,5 +66,10 @@ public static class Injector
         services.AddTransient<IGetStatistic, GetStatistic>();
 
         #endregion
+
+        #region Day
+        services.AddTransient<IGetDay, GetDay>();
+        services.AddTransient<IDayAction, DayAction>();
+        #endregion
     }
 }
