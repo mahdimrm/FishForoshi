@@ -1,5 +1,7 @@
 ﻿namespace FishForoshi.Web.Tools
 {
+    using DocumentFormat.OpenXml.Drawing.Diagrams;
+    using FishForoshi.Entities;
     using System;
     using System.Globalization;
 

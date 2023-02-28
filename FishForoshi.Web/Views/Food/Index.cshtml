@@ -7,6 +7,9 @@
 
 @{
     ViewData["Title"] = "غذا ها";
+    MealType mealType = new MealType();
+    string meal = "";
+
 }
 
 <div class="content-header row">
@@ -76,6 +79,9 @@
                                         نوع
                                     </th>
                                     <th>
+                                        وعده
+                                    </th>
+                                    <th>
                                         قیمت
                                     </th>
                                     <th>
@@ -100,8 +106,29 @@
                                             else if (item.FoodType == 2)
                                             {
                                                 <h6 class="text-primary">کارکنان</h6>
-
                                             }
+                                        </td>
+                                        <td>
+                                            @{
+                                                switch ((MealType)item.MealType)
+                                                {
+                                                    case MealType.BreakFast:
+                                                        meal = "صبحانه";
+                                                        break;
+                                                    case MealType.Launch:
+                                                        meal = "ناهار";
+                                                        break;
+                                                    case MealType.Snack:
+                                                        meal = "میان وعده";
+                                                        break;
+                                                    case MealType.Dinnder:
+                                                        meal = "شام";
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
+                                            }
+                                            <h6 class="text-secondary">@meal</h6>
                                         </td>
                                         <td>
                                             @item.Price.ToPrice()
@@ -135,9 +162,9 @@
                 </div>
             </div>
         </div>
-            <div class="col-sm-12 col-md-8">
-                @Html.PagedListPager(Model,
-                page => Url.Action("Index", "Food",
+        <div class="col-sm-12 col-md-8">
+            @Html.PagedListPager(Model,
+            page => Url.Action("Index", "Food",
             new { page = page, name = Context.Request.Query["name"],type = Context.Request.Query["type"]}))
         </div>
     </section>
