@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FishForoshi.Database.Migrations
 {
     [DbContext(typeof(FishForoshiContext))]
-    [Migration("20230221161813_Update_CustomerQueue_DataType")]
-    partial class Update_CustomerQueue_DataType
+    [Migration("20230227041122_Update_Food_Add_DailyFood_Day_Factor")]
+    partial class Update_Food_Add_DailyFood_Day_Factor
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,6 +90,107 @@ namespace FishForoshi.Database.Migrations
                     b.ToTable("CustomerQueues");
                 });
 
+            modelBuilder.Entity("FishForoshi.Entities.DailyFood", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Count")
+                        .HasColumnType("float");
+
+                    b.Property<Guid>("DayId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeleteDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("FoodId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("InsertDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DayId");
+
+                    b.HasIndex("FoodId");
+
+                    b.ToTable("DailyFoods");
+                });
+
+            modelBuilder.Entity("FishForoshi.Entities.Day", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeleteDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("InsertDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Days");
+                });
+
+            modelBuilder.Entity("FishForoshi.Entities.Factor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DailyFoodId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeleteDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("InsertDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Passed")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DailyFoodId");
+
+                    b.ToTable("Factors");
+                });
+
             modelBuilder.Entity("FishForoshi.Entities.Food", b =>
                 {
                     b.Property<Guid>("Id")
@@ -99,8 +200,16 @@ namespace FishForoshi.Database.Migrations
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte>("FoodType")
                         .HasColumnType("tinyint");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("InsertDateTime")
                         .HasColumnType("datetime2");
@@ -170,6 +279,36 @@ namespace FishForoshi.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("BarberStaff");
+                });
+
+            modelBuilder.Entity("FishForoshi.Entities.DailyFood", b =>
+                {
+                    b.HasOne("FishForoshi.Entities.Day", "Day")
+                        .WithMany()
+                        .HasForeignKey("DayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FishForoshi.Entities.Food", "Food")
+                        .WithMany()
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Day");
+
+                    b.Navigation("Food");
+                });
+
+            modelBuilder.Entity("FishForoshi.Entities.Factor", b =>
+                {
+                    b.HasOne("FishForoshi.Entities.DailyFood", "DailyFood")
+                        .WithMany()
+                        .HasForeignKey("DailyFoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DailyFood");
                 });
 
             modelBuilder.Entity("FishForoshi.Entities.Norm", b =>

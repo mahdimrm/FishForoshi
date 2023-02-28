@@ -36,6 +36,13 @@ public static class Injector
         services.AddTransient<IFoodAction, FoodAction>();
         #endregion
 
+        #region Factor
+
+        services.AddTransient<IGetFactor, GetFactor>();
+        services.AddTransient<IFactorAction, FactorAction>();
+
+        #endregion
+
         #region Norm
         services.AddTransient<IGetNorm, GetNorm>();
         services.AddTransient<INormAction, NormAction>();

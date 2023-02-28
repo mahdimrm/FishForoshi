@@ -47,7 +47,8 @@
                             <label>نوع:</label>
                         </div>
                         <div class="col-md-6">
-                            <select name="type" id="@Context.Request.Query["type"]" required class="form-control">
+                            <select name="type" id="@Context.Request.Query["type"]" class="form-control">
+                                <option value="">پیش فرض</option>
                                 <option value="1">سرباز</option>
                                 <option value="2">کارکنان</option>
                             </select>
@@ -134,12 +135,10 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12 col-md-7">
+            <div class="col-sm-12 col-md-8">
                 @Html.PagedListPager(Model,
                 page => Url.Action("Index", "Food",
-                new { pageNumber = page, name = Context.Request.Query["name"],type = Context.Request.Query["type"]}))
-            </div>
+            new { page = page, name = Context.Request.Query["name"],type = Context.Request.Query["type"]}))
         </div>
     </section>
 </div>

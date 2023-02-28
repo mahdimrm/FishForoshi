@@ -32,16 +32,20 @@ namespace FishForoshi.Implementation.Statistic
                 int count = counts[index];
                 index++;
                 var norms = await _normQuery.Norms(item.Id);
-                var foodNorms = new List<Norm>();
+                var calculateNorms = new List<Norm>();
+                var defaultNorms = new List<Norm>();
                 foreach (var norm in norms)
                 {
-                    foodNorms.Add(new Norm { Id = norm.Id, Name = norm.Name, Value = norm.Value * count });
+                    calculateNorms.Add(new Norm { Id = norm.Id, Name = norm.Name, Value = norm.Value * count });
+                    defaultNorms.Add(new Norm { Id = norm.Id, Name = norm.Name, Value = norm.Value });
                 }
+
                 result.Add(new CadreHallStatisticViewModel
                 {
                     FoodName = item.Name,
                     MealType = GenerateTypes((MealType)item.MealType, (FoodType)item.FoodType),
-                    Norms = foodNorms,
+                    CalculatedNorms = calculateNorms,
+                    Norms = defaultNorms,
                     FoodCount = count
                 });
 

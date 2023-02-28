@@ -123,7 +123,7 @@
             <div class="col-sm-12 col-md-7">
                 @Html.PagedListPager(Model,
                 page => Url.Action("Index", "CustomerTurn",
-                new { pageNumber = page, customerName = Context.Request.Query["customerName"],
+                new { page = page, customerName = Context.Request.Query["customerName"],
                 barberName = Context.Request.Query["barberName"],
                 time = Context.Request.Query["time"]}))
             </div>

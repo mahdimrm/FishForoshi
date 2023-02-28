@@ -29,6 +29,8 @@ namespace FishForoshi.Database
         public DbSet<Norm> Norms { get; set; } = null!;
         public DbSet<Barber> BarberStaff { get; set; } = null!;
         public DbSet<CustomerTurn> CustomerQueues { get; set; } = null!;
-
+        public DbSet<Day> Days { get; set; } = null!;
+        public DbSet<DailyFood> DailyFoods { get; set; } = null!;
+        public DbSet<Factor> Factors { get; set; } = null!;
     }
 }
