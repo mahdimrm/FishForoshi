@@ -34,6 +34,17 @@ namespace FishForoshi.Implementation
             return new PagedList<Food>(foods, pageNumber, 10);
         }
 
+        public async Task<IEnumerable<SelectListDto>> GetNames()
+        {
+            var foods = await _query.GetAllAsync();
+            var result = foods.Select(x => new SelectListDto
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            });
+
+            return result;
+        }
         public async Task<IEnumerable<SelectListDto>> GetBreakFastNames()
         {
             var foods = await _query.GetAllAsync();

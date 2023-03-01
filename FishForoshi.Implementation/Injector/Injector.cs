@@ -71,5 +71,12 @@ public static class Injector
         services.AddTransient<IGetDay, GetDay>();
         services.AddTransient<IDayAction, DayAction>();
         #endregion
+
+        #region DailyFood
+
+        services.AddTransient<IGetDailyFood, GetDailyFood>();
+        services.AddTransient<IDailyFoodAction, DailyFoodAction>();
+
+        #endregion
     }
 }

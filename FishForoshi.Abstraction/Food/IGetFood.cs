@@ -9,7 +9,7 @@ namespace FishForoshi.Abstraction
         Task<IPagedList<Food>> GetFoodsAsync(int pageNumber, string name, string type);
 
         Task<Food> GetByIdAsync(Guid id);
-
+        Task<IEnumerable<SelectListDto>> GetNames();
         Task<IEnumerable<SelectListDto>> GetBreakFastNames();
         Task<IEnumerable<SelectListDto>> GetEmployeeLaunchNames();
         Task<IEnumerable<SelectListDto>> GetSnackNames();

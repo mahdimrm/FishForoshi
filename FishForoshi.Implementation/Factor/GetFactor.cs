@@ -23,5 +23,11 @@ namespace FishForoshi.Implementation
 
         public async Task<Factor> GetAsync(Guid id)
             => await _query.GetAsync(id);
+
+        public async Task<int> GetDailyFoodTotal(Guid dailyId)
+        {
+            var result = await _query.GetAllAsync(x => x.DailyFoodId == dailyId);
+            return result.Count();
+        }
     }
 }

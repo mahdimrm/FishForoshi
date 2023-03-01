@@ -74,8 +74,9 @@ public class CudRepository<T> : ICudRepository<T> where T : BaseEntity
         try
         {
             var entity = await _dbset.FindAsync(Guid);
-            _dbset.Remove(entity);
-            return await SaveAsync();
+            entity.IsDeleted = true;
+            entity.DeleteDateTime = DateTime.Now;
+            return await UpdateAsync(entity);
         }
         catch
         {
@@ -87,8 +88,9 @@ public class CudRepository<T> : ICudRepository<T> where T : BaseEntity
     {
         try
         {
-            _dbset.Remove(entity);
-            return await SaveAsync();
+            entity.IsDeleted = true;
+            entity.DeleteDateTime = DateTime.Now;
+            return await UpdateAsync(entity);
         }
         catch
         {

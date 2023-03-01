@@ -7,5 +7,6 @@ namespace FishForoshi.Abstraction
     {
         Task<IPagedList<Factor>> GetAsync(int page);
         Task<Factor> GetAsync(Guid id);
+        Task<int> GetDailyFoodTotal(Guid dailyId);
     }
 }
