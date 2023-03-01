@@ -1,5 +1,8 @@
 ﻿using FishForoshi.Abstraction;
+using FishForoshi.Abstraction.Common;
 using FishForoshi.Entities;
+using FishForoshi.Implementation.Upload;
+using Microsoft.AspNetCore.Http;
 
 namespace FishForoshi.Implementation
 {
@@ -7,15 +10,26 @@ namespace FishForoshi.Implementation
     {
         private readonly IQueryRepository<Food> _query;
         private readonly ICudRepository<Food> _action;
+        private readonly IUploadFileService _upload;
 
-        public FoodAction(IQueryRepository<Food> query, ICudRepository<Food> action)
+        public FoodAction(IQueryRepository<Food> query, ICudRepository<Food> action, IUploadFileService upload)
         {
             _query = query;
             _action = action;
+            _upload = upload;
         }
 
-        public async Task<FoodActionStatus> CreateAsync(Food food)
+        public async Task<FoodActionStatus> CreateAsync(Food food, IFormFile file)
         {
+            if (file != null)
+            {
+                var uploadLogoResult = await _upload.Upload(file, @"Upload\Food");
+                if (uploadLogoResult != null)
+                {
+                    food.ImageName = uploadLogoResult.FileName;
+                }
+            }
+
             return await _action.AddAsync(food) ?
              FoodActionStatus.Success : FoodActionStatus.Failed;
         }
@@ -23,13 +37,38 @@ namespace FishForoshi.Implementation
 
 
         public async Task<FoodActionStatus> DeleteAsync(Guid id)
-                => await _action.DeleteByIdAsync(id)
-                                ? FoodActionStatus.Success
-                                : FoodActionStatus.Failed;
+        {
+            var food = await _query.GetAsync(id);
+            if (food == null)
+            {
+                return FoodActionStatus.NotFound;
+            }
 
-        public async Task<FoodActionStatus> UpdateAsync(Food food)
+            await _upload.DeleteFile(food.ImageName, @"Upload\Category");
+
+
+            return await _action.DeleteByIdAsync(id)
+                                 ? FoodActionStatus.Success
+                                 : FoodActionStatus.Failed;
+        }
+
+        public async Task<FoodActionStatus> UpdateAsync(Food food, IFormFile file)
         {
             var model = await _query.GetAsync(food.Id);
+
+            if (model == null)
+            {
+                return FoodActionStatus.NotFound;
+            }
+
+            if (file != null)
+            {
+                var uploadLogoResult = await _upload.Upload(file, @"Upload\Food");
+                if (uploadLogoResult != null)
+                {
+                    model.ImageName = uploadLogoResult.FileName;
+                }
+            }
 
             model.Name = food.Name;
             model.Price = food.Price;
@@ -40,9 +79,5 @@ namespace FishForoshi.Implementation
             return await _action.UpdateAsync(model)
                 ? FoodActionStatus.Success : FoodActionStatus.Failed;
         }
-
-        public async Task<FoodActionStatus> UpsertAsync(Food food)
-            => food?.Id is null
-            ? await CreateAsync(food) : await UpdateAsync(food);
     }
 }

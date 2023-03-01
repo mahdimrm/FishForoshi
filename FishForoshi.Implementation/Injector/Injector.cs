@@ -1,8 +1,10 @@
 ﻿using FishForoshi.Abstraction;
+using FishForoshi.Abstraction.Common;
 using FishForoshi.Abstraction.Statistic;
 using FishForoshi.Database;
 using FishForoshi.Implementation;
 using FishForoshi.Implementation.Statistic;
+using FishForoshi.Implementation.Upload;
 using Infrastructure.Implementation.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +33,11 @@ public static class Injector
 
     static void AddActionServices(this IServiceCollection services)
     {
+        #region Upload
+        services.AddTransient<IUploadFileService, UploadFileService>();
+
+        #endregion
+
         #region Food
         services.AddTransient<IGetFood, GetFood>();
         services.AddTransient<IFoodAction, FoodAction>();

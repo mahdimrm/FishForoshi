@@ -21,6 +21,7 @@ namespace FishForoshi.Entities
         [Required(ErrorMessage = "  لطفا {0} وارد کنید")]
         public byte MealType { get; set; }
 
+        [Display(Name = "توضیحات")]
         public string Description { get; set; }
 
         public string ImageName { get; set; }
