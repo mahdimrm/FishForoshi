@@ -1,5 +1,6 @@
 ﻿using FishForoshi.Abstraction;
 using FishForoshi.Entities;
+using FishForoshi.ViewModel.Common;
 
 namespace FishForoshi.Implementation
 {
@@ -17,5 +18,19 @@ namespace FishForoshi.Implementation
 
         public async Task<Day> GetAsync(Guid id)
             => await _query.GetAsync(id);
+
+        public async Task<IEnumerable<SelectListDto>> GetNames()
+        {
+            var days = await _query.GetAllAsync();
+
+            var result = days
+                .Select(x => new SelectListDto
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name
+                });
+
+            return result;
+        }
     }
 }
