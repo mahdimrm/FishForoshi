@@ -1,0 +1,56 @@
+﻿@using FishForoshi.Entities
+@using FishForoshi.Web.Tools
+@model DailyFood
+@{
+    ViewData["Title"] = "ویرایش غذای روزانه";
+}
+<div class="content-header row">
+    <div class="content-header-left col-12 my-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h5 class="content-header-title float-left">@ViewData["Title"]</h5>
+                <div class="breadcrumb-wrapper ">
+                    <ol class="breadcrumb p-0 pl-1 mb-0">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="DailyFood" asp-action="Index"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            @ViewData["Title"]
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="col-md-12">
+    <form asp-action="Edit" asp-controller="DailyFood" asp-route-id="@Model.Id" method="post">
+        <input hidden="@Model.Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <p style="width:fit-content">
+            <label> تاریخ</label>
+            <input type="text" value="@Model.Date" class="form-control shamsi-datepicker" asp-for="Date" name="Date">
+        </p>
+
+        <div class="form-group">
+            <label class="control-label">غذا</label>
+            <select asp-for="FoodId" asp-items="@ViewBag.Foods" required class="form-control"></select>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">روز</label>
+            <select asp-for="DayId" asp-items="@ViewBag.Days" required class="form-control"></select>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">تعداد</label>
+            <input asp-for="Count" required type="number" class="form-control" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-warning btn-block">ویرایش</button>
+        </div>
+    </form>
+</div>

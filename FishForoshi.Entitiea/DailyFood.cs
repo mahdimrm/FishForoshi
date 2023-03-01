@@ -11,11 +11,21 @@ namespace FishForoshi.Entities
         public Guid FoodId { get; set; }
 
         [Required]
-        public double Count { get; set; }
+        public int Count { get; set; }
+
+        [Required]
+        public string Date { get; set; }
 
         //Relations 
 
         public virtual Day Day { get; set; }
         public virtual Food Food { get; set; }
+    }
+    public enum DailyFoodStatus
+    {
+        Success = 0,
+        Failed = 1,
+        NotFound = 2,
+        HaveFactor = 3,
     }
 }
