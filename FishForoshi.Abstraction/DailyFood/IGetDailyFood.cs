@@ -5,7 +5,7 @@ namespace FishForoshi.Abstraction
 {
     public interface IGetDailyFood
     {
-        Task<IEnumerable<DailyFoodViewModel>> GetAsync();
+        Task<FactorDailyFoodViewModel> GetAsync();
         Task<DailyFood> GetAsync(Guid id);
     }
 }

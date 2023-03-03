@@ -3,7 +3,7 @@
 @using FishForoshi.ViewModel.DailyFood
 @using FishForoshi.Web.Tools;
 
-@model IEnumerable<DailyFoodViewModel>
+@model FactorDailyFoodViewModel
 
 @{
     ViewData["Title"] = "غذای روزانه";
@@ -66,7 +66,7 @@
                                 </tr>
                             </thead>
                             <tbody id="groups-table-body">
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.DailyFood)
                                 {
                                     <tr>
                                         <td><img src="~/Upload/Food/@item.ImageName" alt="Image" width="80"></td>
@@ -86,7 +86,7 @@
                                             @item.Total
                                         </td>
                                         <td>
-                                            <a asp-action="Add">
+                                            <a asp-action="CreatePreviewFactor" asp-asp-controller="DailyFood" asp-route-id="@item.Id">
                                                 <i class="badge-circle badge-circle-light-primary bx bxs-purchase-tag font-medium-1"></i>
                                             </a>
                                         </td>
@@ -108,16 +108,194 @@
                 </div>
             </div>
         </div>
+        @if (Model.PreviewFactor != null)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <a href="@Url.Action("PrintFood","Print")" class="btn btn-primary mr-1 mb-1 active btn-pointer">چاپ</a>
+                </div>
+            </div>
+            <h2>جمع کل : @ViewBag.TotalPrice </h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-content table-responsive">
+                            <table class="table mb-0 line-height-1">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            تصویر
+                                        </th>
+                                        <th>
+                                            روز
+                                        </th>
+                                        <th>
+                                            تاریخ
+                                        </th>
+                                        <th>
+                                            غذا
+                                        </th>
+                                        <th>
+                                            تعداد
+                                        </th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="factors-table-body">
+                                    @foreach (var item in Model?.PreviewFactor)
+                                    {
+                                        <tr id="@item.Id">
+                                            <td><img src="~/Upload/Food/@item.ImageName" alt="Image" width="80"></td>
+                                            <td>
+                                                @item.Day
+                                            </td>
+                                            <td>
+                                                @item.Date
+                                            </td>
+                                            <td>
+                                                @item.Food
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <a asp-action="Increase" asp-asp-controller="DailyFood" asp-route-id="@item.Id">
+                                                        <i class="badge-circle badge-circle-light-success font-medium-1"><span class="font-large-1">+</span></i>
+                                                    </a>
+                                                    <div style="width:20px"></div>
+                                                    <h3 id="factorCount">
+                                                        @item.Count
+                                                    </h3>
+                                                    <div style="width:20px"></div>
+                                                    <a asp-action="Decrease" asp-asp-controller="DailyFood" asp-route-id="@item.Id">
+                                                        <i class="badge-circle badge-circle-light-danger font-large-1"><span class="font-large-1">-</span></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a asp-action="DeleteFactor" asp-asp-controller="DailyFood" asp-route-id="@item.Id">
+                                                    <i class="badge-circle badge-circle-light-secondary bx bxs-trash font-medium-1"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
     </section>
 </div>
 
 
 <script type="text/javascript">
 
+    const addDailyFoodToFactor = ({ id }) => {
+        fetch(`/DailyFood/CreatePreviewFactor?id=${id}`, getHtmlApiCallOptions).then(async (res) => {
+            const body = await rest.json()
+        })
+    }
+    const Increase = ({ id }) => {
+        fetch(`/DailyFood/Increase?id=${id}`).then(async (rest) => {
+            const body = await rest.json()
+        })
+    }
+
+    const Decrease = ({ id }) => {
+        fetch(`/DailyFood/Decrease?id=${id}`).then(async (rest) => {
+            const body = await rest.json()
+        })
+    }
+
+    const DeleteFactor = ({ id }) => {
+        fetch(`/DailyFood/DeleteFactor?id=${id}`).then(async (rest) => {
+            const body = await rest.json()
+
+        })
+    }
+
+    const addDailyFoodToFactorApi = ({ id }) => {
+        fetch(`/api/PreviewFactor/CreatePreviewFactor?id=${id}`).then(async (rest) => {
+            const body = await rest.json()
+            if (body.status) {
+                addFactorToList(body.result.factor)
+            }
+        })
+    }
+    const IncreaseApi = ({ id }) => {
+        fetch(`/api/PreviewFactor/Increase?id=${id}`).then(async (rest) => {
+            const body = await rest.json()
+            if (body.status) {
+                let count = document.getElementById("factorCount");
+                var value = count.value;
+                value++
+                count.innerHTML = value;
+            }
+        })
+    }
+
+    const DecreaseApi = ({ id }) => {
+        fetch(`/api/PreviewFactor/Decrease?id=${id}`).then(async (rest) => {
+            const body = await rest.json()
+            if (body.status) {
+                let count = document.getElementById("factorCount");
+                var value = count.value++;
+                count.innerHTML = "" + value;
+
+            }
+        })
+    }
+
+    const DeleteFactorApi = ({ id }) => {
+        fetch(`/api/PreviewFactor/Delete?id=${id}`).then(async (rest) => {
+            const body = await rest.json()
+
+        })
+    }
 
     const deleteDaily = ({ id, name }) => {
         fetch(`/DailyFood/Delete?id=${id}`, getHtmlApiCallOptions).then(async (res) => {
             createModal(`حذف غذای روزانه ${name}`, await res.text())
         })
+    }
+    const addFactorToList = (factor) => {
+        removeFromTable(factor.id)
+        let html = ` <tr id="${factor.id}">
+                                                                                                                                        <td><img src="/Upload/Food/${factor.imagename}" alt="Image" width="80"></td>
+                                                                                                                                                                                                            <td>
+                                                                                                                                                                         ${factor.day}
+                                                                                                                                                                   </td>
+                                                                                                                                                                   <td>
+                                                                                                                                                                         ${factor.date}
+                                                                                                                                                                   </td>
+                                                                                                                                                                  <td>
+                                                                                                                                                                         ${factor.food}
+                                                                                                                                                                                                            </td>
+                                                                                                                                                                   <td>
+                                                                                                                                                                       <div class="row">
+                                                                                                                                                                                                                    <a>
+                                                                                                                                                                                                                        <i class="badge-circle badge-circle-light-success font-medium-1"><span class="font-large-1">+</span></i>
+                                                                                                                                                                                                                    </a>
+                                                                                                                                                                                                                    <div style="width:20px"></div>
+                                                                                                                                                                                                                    <h3>
+                                                                                                                                                                                                                        ${factor.count}
+                                                                                                                                                                                                                    </h3>
+                                                                                                                                                                                                                    <div style="width:20px"></div>
+                                                                                                                                                                                                                    <a>
+                                                                                                                                                                                                                        <i class="badge-circle badge-circle-light-danger font-large-1"><span class="font-large-1">-</span></i>
+                                                                                                                                                                                                                    </a>
+                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                            </td>
+                                                                                                                                                                                                            <td>
+                                                                                                                                                                                                                <a>
+                                                                                                                                                                                                                    <i class="badge-circle badge-circle-light-secondary bx bxs-trash font-medium-1"></i>
+                                                                                                                                                                                                                </a>
+                                                                                                                                                                                                            </td>
+                                                                                                                                                                                                        </tr>`
+
+        addItemToTable('factors-table-body', html)
     }
 </script>

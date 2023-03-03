@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FishForoshi.ViewModel.DailyFood
+namespace FishForoshi.ViewModel
 {
-    public class DailyFoodViewModel
+    public class PreviewFactorViewModel
     {
         public Guid Id { get; set; }
+        public string ImageName { get; set; }
 
         [Display(Name = "روز")]
         public string Day { get; set; }
@@ -18,17 +19,6 @@ namespace FishForoshi.ViewModel.DailyFood
         [Display(Name = "تعداد")]
         public double Count { get; set; }
 
-        [Display(Name = "مانده")]
-        public double Total { get; set; }
-
-        public string ImageName { get; set; }
-
-
-    }
-
-    public class FactorDailyFoodViewModel
-    {
-        public IEnumerable<DailyFoodViewModel> DailyFood { get; set; }
-        public IEnumerable<PreviewFactorViewModel>? PreviewFactor { get; set; }
+        public double Price { get; set; }
     }
 }

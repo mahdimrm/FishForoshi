@@ -1,6 +1,8 @@
 ﻿using FishForoshi.Abstraction;
 using FishForoshi.Entities;
+using FishForoshi.ViewModel;
 using FishForoshi.ViewModel.Common;
+using FishForoshi.Web.Tools;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -24,8 +26,98 @@ namespace FishForoshi.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var previewFactor = SessionHelper.GetObjectFromJson<List<PreviewFactorViewModel>>(HttpContext.Session, "previewFactors");
+            if (previewFactor != null)
+            {
+                ViewBag.TotalPrice = previewFactor.Sum(x => x.Price * x.Count).ToString("#,##0");
+            }
             var result = await _query.GetAsync();
+            result.PreviewFactor = previewFactor;
             return View(result);
+        }
+
+        public async Task<IActionResult> CreatePreviewFactor(Guid id)
+        {
+            var dailyFood = await _query.GetAsync(id);
+            List<PreviewFactorViewModel> factor = new List<PreviewFactorViewModel>();
+
+            if (SessionHelper.GetObjectFromJson<List<PreviewFactorViewModel>>(HttpContext.Session, "previewFactors") == null)
+            {
+                factor.Add(
+                    new PreviewFactorViewModel
+                    {
+                        Id = dailyFood.Id,
+                        Count = 1,
+                        Date = dailyFood.Date,
+                        Day = dailyFood.Day.Name,
+                        Food = dailyFood.Food.Name,
+                        ImageName = dailyFood.Food.ImageName,
+                        Price = dailyFood.Food.Price
+                    });
+
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "previewFactors", factor);
+            }
+
+            else
+            {
+                factor = SessionHelper.GetObjectFromJson<List<PreviewFactorViewModel>>(HttpContext.Session, "previewFactors");
+                int index = IsExsist(id);
+                if (index != -1)
+                {
+                    factor[index].Count++;
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "previewFactors", factor);
+                }
+                else
+                {
+                    factor.Add(new PreviewFactorViewModel
+                    {
+                        Id = dailyFood.Id,
+                        Count = 1,
+                        Date = dailyFood.Date,
+                        Day = dailyFood.Day.Name,
+                        Food = dailyFood.Food.Name,
+                        ImageName = dailyFood.Food.ImageName,
+                        Price = dailyFood.Food.Price
+                    });
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "previewFactors", factor);
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Increase(Guid id)
+        {
+            List<PreviewFactorViewModel> factor = SessionHelper.GetObjectFromJson<List<PreviewFactorViewModel>>(HttpContext.Session, "previewFactors");
+            int index = IsExsist(id);
+            if (index != -1)
+            {
+                factor[index].Count++;
+            }
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "previewFactors", factor);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("Decrease")]
+
+        public IActionResult Decrease(Guid id)
+        {
+            List<PreviewFactorViewModel> factor = SessionHelper.GetObjectFromJson<List<PreviewFactorViewModel>>(HttpContext.Session, "previewFactors");
+            int index = IsExsist(id);
+            factor[index].Count--;
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "previewFactors", factor);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("Delete")]
+        public IActionResult DeleteFactor(Guid id)
+        {
+            List<PreviewFactorViewModel> factor = SessionHelper.GetObjectFromJson<List<PreviewFactorViewModel>>(HttpContext.Session, "previewFactors");
+
+            factor.Remove(factor.Find(x => x.Id == id));
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "previewFactors", factor);
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -119,6 +211,19 @@ namespace FishForoshi.Web.Controllers
 
             return result;
         }
+        private int IsExsist(Guid id)
+        {
+            List<PreviewFactorViewModel> items = SessionHelper.GetObjectFromJson<List<PreviewFactorViewModel>>(HttpContext.Session, "previewFactors");
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].Id.Equals(id))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
     }
 }
 

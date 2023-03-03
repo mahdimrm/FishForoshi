@@ -1,6 +1,7 @@
 ﻿using FishForoshi.Abstraction;
 using FishForoshi.Entities;
 using FishForoshi.ViewModel.DailyFood;
+using Microsoft.AspNetCore.Http;
 
 namespace FishForoshi.Implementation
 {
@@ -15,10 +16,10 @@ namespace FishForoshi.Implementation
             _factorQuery = factorQuery;
         }
 
-        public async Task<IEnumerable<DailyFoodViewModel>> GetAsync()
+        public async Task<FactorDailyFoodViewModel> GetAsync()
         {
             var dailies = await _query.GetAllAsync();
-            var result = dailies.Select(x => new DailyFoodViewModel
+            var dailyFoods = dailies.Select(x => new DailyFoodViewModel
             {
                 Id = x.Id,
                 Day = x.Day.Name,
@@ -28,6 +29,8 @@ namespace FishForoshi.Implementation
                 Total = (_factorQuery.GetDailyFoodTotal(x.Id).Result) - (x.Count),
                 ImageName = x.Food.ImageName
             });
+
+            FactorDailyFoodViewModel result = new() { DailyFood = dailyFoods };
             return result;
         }
 
