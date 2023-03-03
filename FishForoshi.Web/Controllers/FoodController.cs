@@ -31,7 +31,8 @@ namespace FishForoshi.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Food food)
         {
-            var result = await _action.CreateAsync(food);
+            var file = Request.Form.Files["ImgInp"];
+            var result = await _action.CreateAsync(food, file);
             return FoodActionResult(result);
         }
 
@@ -50,7 +51,8 @@ namespace FishForoshi.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Food food)
         {
-            var result = await _action.UpdateAsync(food);
+            var file = Request.Form.Files["ImgInp"];
+            var result = await _action.UpdateAsync(food, file);
             return FoodActionResult(result);
         }
 

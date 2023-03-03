@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\Food\" />
     <Folder Include="wwwroot\Upload\Food\" />
   </ItemGroup>
 

@@ -7,7 +7,7 @@
 
 
 <div class="col-md-12">
-    <form asp-action="Edit" asp-controller="Food" asp-route-id="@Model.Id" method="post">
+    <form asp-action="Edit" asp-controller="Food" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
         <input hidden="@Model.Id" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
@@ -34,6 +34,19 @@
                 <option value="4">شام</option>
             </select>
             <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ImageName">ارسال فایل</label>
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" name="ImgInp" id="ImgInp" class="custom-file-input">
+                    <label class="custom-file-label" for="exampleInputFile">انتخاب فایل</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
         </div>
         <div class="form-group">
             <button class="btn btn-warning btn-block">ویرایش</button>

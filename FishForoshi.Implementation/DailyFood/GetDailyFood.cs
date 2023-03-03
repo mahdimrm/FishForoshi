@@ -25,7 +25,8 @@ namespace FishForoshi.Implementation
                 Date = x.Date,
                 Food = x.Food.Name,
                 Count = x.Count,
-                Total = (_factorQuery.GetDailyFoodTotal(x.Id).Result) - (x.Count)
+                Total = (_factorQuery.GetDailyFoodTotal(x.Id).Result) - (x.Count),
+                ImageName = x.Food.ImageName
             });
             return result;
         }

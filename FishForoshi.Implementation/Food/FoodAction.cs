@@ -2,6 +2,7 @@
 using FishForoshi.Abstraction.Common;
 using FishForoshi.Entities;
 using FishForoshi.Implementation.Upload;
+using FishForoshi.ViewModel.Common;
 using Microsoft.AspNetCore.Http;
 
 namespace FishForoshi.Implementation
@@ -44,8 +45,11 @@ namespace FishForoshi.Implementation
                 return FoodActionStatus.NotFound;
             }
 
-            await _upload.DeleteFile(food.ImageName, @"Upload\Category");
-
+            var uploadResult = await _upload.DeleteFile(food.ImageName, @"Upload\Food");
+            if (uploadResult == DeleteFileResultStatus.Failed)
+            {
+                return FoodActionStatus.Failed;
+            }
 
             return await _action.DeleteByIdAsync(id)
                                  ? FoodActionStatus.Success
@@ -55,10 +59,14 @@ namespace FishForoshi.Implementation
         public async Task<FoodActionStatus> UpdateAsync(Food food, IFormFile file)
         {
             var model = await _query.GetAsync(food.Id);
-
             if (model == null)
             {
                 return FoodActionStatus.NotFound;
+            }
+
+            if (model.ImageName != null)
+            {
+                await _upload.DeleteFile(model.ImageName, @"Upload\Food");
             }
 
             if (file != null)

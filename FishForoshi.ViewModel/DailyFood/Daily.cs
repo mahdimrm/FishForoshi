@@ -21,6 +21,8 @@ namespace FishForoshi.ViewModel.DailyFood
         [Display(Name = "مانده")]
         public double Total { get; set; }
 
+        public string ImageName { get; set; }
+
 
     }
 }
