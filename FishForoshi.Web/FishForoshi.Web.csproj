@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
     <PackageReference Include="ClosedXML" Version="0.100.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.13">
       <PrivateAssets>all</PrivateAssets>
@@ -18,12 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FishForoshi.Implementation\FishForoshi.Implementation.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Views\CustomerTurn\hjc3ymn3.bqt~">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
