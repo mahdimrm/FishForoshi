@@ -13,6 +13,7 @@ namespace FishForoshi.Web.Controllers
         private readonly IGetFood _foodQuery;
         private readonly IGetStatistic _statisticsQuery;
 
+
         public StatisticsController(IGetFood foodQuery, IGetStatistic statisticsQuery)
         {
             _foodQuery = foodQuery;
@@ -76,43 +77,64 @@ namespace FishForoshi.Web.Controllers
         }
         public IActionResult Excel(List<CadreHallStatisticViewModel> statistics, string date)
         {
-            using (var workbook = new XLWorkbook())
+            using (var workbook = new XLWorkbook(@"G:/DotNetProjects/FishForoshi/FishForoshi.Web/wwwroot/Files/Norm.xlsx"))
             {
-                var worksheet = workbook.Worksheets.Add("آمار");
-
-                //Styles
-                workbook.Style.Font.Bold = true;
-                workbook.Style.Font.Italic = true;
-                worksheet.RightToLeft = true;
-                worksheet.RowHeight = 25;
-                worksheet.ColumnWidth = 25;
-                
+                var worksheet = workbook.Worksheet("sheet1");
 
                 //Ranges 
-                var ranges = worksheet.Cells("A2:F2");
-                var countRanges = worksheet.Cells("A1:F1");
-                worksheet.Style.Border.BottomBorder = XLBorderStyleValues.MediumDashed;
+                var daterange = worksheet.Cell("G1").Value = $"  مورخ  : {date}";
+                var headerRanges = worksheet.Cells("B3,D3,F3,H3,J3,L3");
+                var matterRanges = worksheet.Cells("B7,D7,F7,H7,J7,L7");
+                var normRanges = worksheet.Cells("C7,E7,G7,I7,K7,M7");
+                var calculatedNormsRanges = worksheet.Cells("B9,D9,F9,H9,J9,L9");
 
                 //Indexes
-                var currentRow = 3;
-                int index = 0;
-                int countIndex = 0;
 
-                foreach (var item in countRanges)
+                int headerRangeIndex = 0;
+                var currentRow = 7;
+                int index = 0;
+
+                foreach (var item in headerRanges)
                 {
-                    item.Value = $"تعداد : {statistics[countIndex].FoodCount}";
-                    countIndex++;
+                    item.Value = $"{statistics[headerRangeIndex].FoodName} ({statistics[headerRangeIndex].FoodCount})";
+                    headerRangeIndex++;
                 }
 
-                foreach (var range in ranges)
+                foreach (var item in normRanges)
                 {
-                    range.Value = $"{statistics[index].FoodName} " + $"({statistics[index].MealType})";
+                    foreach (var norm in statistics[index].Norms)
+                    {
+                        worksheet.Cell(currentRow, item.WorksheetColumn().ColumnLetter()).Value = norm.Value;
+                        currentRow += 4;
+                    }
+                    currentRow = 7;
+                    index++;
+                }
+
+                index = 0;
+
+                foreach (var range in matterRanges)
+                {
+                    foreach (var norm in statistics[index].Norms)
+                    {
+                        worksheet.Cell(currentRow, range.WorksheetColumn().ColumnLetter()).Value = norm.Name;
+                        currentRow += 4;
+                    }
+                    currentRow = 7;
+                    index++;
+                }
+
+                index = 0;
+                currentRow = 9;
+
+                foreach (var range in calculatedNormsRanges)
+                {
                     foreach (var norm in statistics[index].CalculatedNorms)
                     {
-                        worksheet.Cell(currentRow, range.WorksheetColumn().ColumnLetter()).Value = $"{norm.Name}  " + $"  {norm.Value.ToString("#,0")}";
-                        currentRow++;
+                        worksheet.Cell(currentRow, range.WorksheetColumn().ColumnLetter()).Value = norm.Value.ToString("#,##0");
+                        currentRow += 4;
                     }
-                    currentRow = 3;
+                    currentRow = 9;
                     index++;
                 }
 
